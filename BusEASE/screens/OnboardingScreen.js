@@ -3,18 +3,21 @@ import { View,
         StyleSheet,
         Image,
         TouchableOpacity,
+        Button,
     } from 'react-native';
 import React from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 
 
+
+
  const OnboardingScreen1 = ({ navigation }) => {
   return (
     <Onboarding
+    
     onSkip={() => navigation.navigate('GetStarted')}
     onDone={() => navigation.navigate('GetStarted')}
   pages={[
-    
     {
       backgroundColor: '#fff',
       image: <Image source={require('../assets/onboard1.png')} style={{height:300, width:300}} />,

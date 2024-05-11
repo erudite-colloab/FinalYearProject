@@ -18,7 +18,10 @@ export default function GetStartedScreen( {navigation} ) {
         your journey with us. Explore hassle-free booking, real-time updates, 
         and more. Let's make traveling easier together!
       </Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}
+      >
         <Text style={styles.btnText}>Get Started</Text>
       </TouchableOpacity>
     </View>
@@ -38,16 +41,20 @@ const styles = StyleSheet.create({
     logo:{
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 150,
+        //flex: 0.2,
     },
     text: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
         color: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
+        //alignItems: 'center',
+        //justifyContent: 'center',
         marginBottom: 20,
         textAlign: 'center',
-        marginTop: 150,
+        //marginTop: 100,
+        padding: 20,
+
     },
     button: {
         backgroundColor: '#FFFFFF',

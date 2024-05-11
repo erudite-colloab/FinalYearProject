@@ -3,9 +3,9 @@ import React, {useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import GetStartedScreen from './screens/GetStartedScreen';
-import OnboardingScreen1 from './screens/OnboardingScreen1';
-import OnboardingScreen2 from './screens/OnboardingScreen2';
-import OnboardingScreen3 from './screens/OnboardingScreen3'; 
+import OnboardingScreen1 from './screens/OnboardingScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,7 +20,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen 
-          name='Onboarding1'
+          name='Onboarding'
           component={OnboardingScreen1}
           options={{
             headerShown: false
@@ -29,6 +29,13 @@ export default function App() {
         <Stack.Screen 
           name='GetStarted'
           component={GetStartedScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name='Login'
+          component={LoginScreen}
           options={{
             headerShown: false,
           }}
