@@ -18,12 +18,14 @@ export default function GetStartedScreen( {navigation} ) {
         your journey with us. Explore hassle-free booking, real-time updates, 
         and more. Let's make traveling easier together!
       </Text>
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('Login')}
-      >
-        <Text style={styles.btnText}>Get Started</Text>
-      </TouchableOpacity>
+      <View style={styles.btn}>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Text style={styles.btnText}>Get Started</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -65,6 +67,10 @@ const styles = StyleSheet.create({
         height: 60,
         marginTop: 10,
         marginLeft: 60
+    },
+    btn: {
+      paddingLeft: 15,
+      justifyContent: 'center',
     },
     btnText: {
         fontSize: 20,

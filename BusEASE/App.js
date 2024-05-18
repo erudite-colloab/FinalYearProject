@@ -6,10 +6,12 @@ import GetStartedScreen from './screens/GetStartedScreen';
 import OnboardingScreen1 from './screens/OnboardingScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen'; 
+import ForgotPassword from './screens/ForgotPassword';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
+import OTPverification from './screens/OTPverification';
 
 
 const Stack = createStackNavigator();
@@ -36,6 +38,27 @@ export default function App() {
         <Stack.Screen 
           name='Login'
           component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name='Signup'
+          component={SignUpScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name='ForgotPassword'
+          component={ForgotPassword}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name='OTPverification'
+          component={OTPverification}
           options={{
             headerShown: false,
           }}

@@ -1,10 +1,19 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
 
-export default function OnboardingScreen3() {
+export default function Signup() {
   return (
-    <View>
-      <Text>OnboardingScreen3</Text>
+    <View style={styles.container}>
+      <Text>Sign Up</Text>
     </View>
-  )
-}
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+});
+
