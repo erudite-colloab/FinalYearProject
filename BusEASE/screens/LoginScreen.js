@@ -15,7 +15,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);  
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(''); 
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -176,13 +177,13 @@ export default function Login({ navigation }) {
     marginTop: 20,
   },
   account_text: {
-    color: 'grey',
+    color: 'black',
     marginLeft: 5,
     padding: 5,
   },
 
   createAccountText: {
-    color: 'black',
+    color: '#1e60ed',
     fontWeight: 'bold',
   },
 
