@@ -34,7 +34,7 @@ export default function Signup({ navigation }) {
       <Animatable.View style={styles.footer} animation= 'fadeInUpBig'>
         <Text style={styles.title}>Create an account</Text>
         <Text style={styles.subtitle}>Hello, let's hit the road together!</Text>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.text}>Name</Text>
           <View style={styles.action}>
             <TextInput 
