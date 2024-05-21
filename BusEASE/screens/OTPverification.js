@@ -7,7 +7,7 @@ import {  StyleSheet,
         } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-const OTPverification = ( { navigator }) => {
+const OTPverification = ( { navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(59);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
@@ -36,6 +36,7 @@ const handleChangeOtp = (index, value) => {
   const handleVerify = () => {
     // Handle OTP verification logic here
     console.log('OTP entered:', otp.join(''));
+    navigation.navigate('NewPassword');
   };
 
   const handleResend = () => {
@@ -80,7 +81,7 @@ const handleChangeOtp = (index, value) => {
       <TouchableOpacity style={styles.button} onPress={handleVerify}>
         <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => console.log('Cancel')}>
+      <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => navigation.goBack()}>
         <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
       </TouchableOpacity>
     </View>

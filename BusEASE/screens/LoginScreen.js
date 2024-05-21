@@ -92,7 +92,7 @@ export default function Login({ navigation }) {
     
   },
   header: {
-    flex: 1,
+    flex: 0.7,
     backgroundColor: '#1e60ed',
     justifyContent: 'flex-end',
     borderBottomLeftRadius: 20,
@@ -155,7 +155,7 @@ export default function Login({ navigation }) {
     alignSelf: 'flex-end',
     color: '#1E60ED',
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   loginBtn: {
     backgroundColor: '#1E60ED',
@@ -188,4 +188,4 @@ export default function Login({ navigation }) {
 
 
 
- })
+ });

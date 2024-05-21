@@ -7,6 +7,7 @@ import OnboardingScreen1 from './screens/OnboardingScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen'; 
 import ForgotPassword from './screens/ForgotPassword';
+import CreateNewPasswordScreen from './screens/NewPasswordScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -40,6 +41,7 @@ export default function App() {
           component={LoginScreen}
           options={{
             headerShown: false,
+            
           }}
         />
         <Stack.Screen 
@@ -63,6 +65,14 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen 
+          name='NewPassword'
+          component={CreateNewPasswordScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
