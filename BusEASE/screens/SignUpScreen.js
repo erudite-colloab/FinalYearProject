@@ -182,12 +182,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   account_text: {
-    color: 'grey',
+    color: 'black',
     marginLeft: 5,
     padding: 5,
   },
   LoginText: {
-    color: 'black',
+    color: '#1E60ED',
     fontWeight: 'bold',
   },
 
