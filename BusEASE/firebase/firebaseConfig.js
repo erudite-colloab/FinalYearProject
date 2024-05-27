@@ -1,7 +1,9 @@
 
+import { firebase } from "@react-native-firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+
 
 
 const firebaseConfig = {
@@ -10,13 +12,14 @@ const firebaseConfig = {
   projectId: "authproject-b3b5b",
   storageBucket: "authproject-b3b5b.appspot.com",
   messagingSenderId: "191539177507",
-  appId: "1:191539177507:web:6a69320745dfeb7103a996"
+  appId: "1:191539177507:web:6a69320745dfeb7103a996",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { db, auth };
+
+export { auth, db };

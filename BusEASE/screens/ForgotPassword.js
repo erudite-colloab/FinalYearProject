@@ -5,6 +5,7 @@ import { View,
          TouchableOpacity,
          Image, 
          TextInput,
+         KeyboardAvoidingView,
         } from 'react-native'
 import React, { useState } from 'react'
 import { Entypo } from '@expo/vector-icons';
@@ -19,11 +20,17 @@ export default function ForgotPassword({ navigation }) {
     navigation.navigate('OTPverification')
   };
 
+  const login = () => {
+    navigation.navigate('AuthStack', {
+      screen: 'LoginScreen',
+    });
+  }
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <TouchableOpacity 
         style={styles.backButton}
-        onPress={() => navigation.navigate('Login')}
+        onPress={login}
       >
         <Entypo name="chevron-thin-left" size={24} color="black" style={{alignItems:'center', padding:5}} />
       </TouchableOpacity>
@@ -46,7 +53,7 @@ export default function ForgotPassword({ navigation }) {
       >
         <Text style={styles.btnText}>Send Code</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

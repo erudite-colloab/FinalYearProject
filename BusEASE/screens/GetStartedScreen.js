@@ -7,6 +7,12 @@ import React from 'react'
 
 
 export default function GetStartedScreen( {navigation} ) {
+  const login = () => {
+    navigation.navigate('AuthStack', {
+      screen: 'LoginScreen',
+    });
+  }
+
   return (
     <View style={styles.container}>
        <View style={styles.logo} >
@@ -21,7 +27,7 @@ export default function GetStartedScreen( {navigation} ) {
       <View style={styles.btn}>
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => navigation.navigate('Login')}
+          onPress={login}
         >
           <Text style={styles.btnText}>Get Started</Text>
         </TouchableOpacity>

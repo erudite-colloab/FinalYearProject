@@ -4,16 +4,21 @@ import { View,
          TextInput,
          TouchableOpacity,
          ScrollView,
+         KeyboardAvoidingView,
+         Alert,
        } from 'react-native'
 import React, {useState} from 'react'
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
+import { auth } from '../firebase/firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function Signup({ navigation }) {
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -21,13 +26,67 @@ export default function Signup({ navigation }) {
   };
   
 
-  const handleRegister = () => {
+  const handleSiguUp = async () => {
     // Handle register logic here
-    console.log('Register:', { username, email, password, confirmPassword });
-  };
+    // await createUserWithEmailAndPassword(auth, email, password)
+    //   .then(userCredentials => {
+    //     const user = userCredentials.user;
+    //     console.log('Registered with:', user.email);
+    //   })
+    //   .catch(error => console.log(error.code))
+    //   console.log('Signup successful:', { username, email, phoneNumber,});
+
+    //   navigation.navigate('AuthStack', {
+    //     screen: 'LoginScreen',
+    //   });
+    setIsLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+      const user = userCredential.user;
+      Alert.alert("Signup successful", "Welcome back!");
+      // Navigate to home or main screen if needed
+      navigation.navigate('MainNavigator');
+    } catch (error) {
+      console.error(error);
+      let errorMessage = 'An error occurred. Please try again.';
+
+      // if (error.code === 'auth/network-request-failed') {
+      //   errorMessage = 'Network error. Please check your internet connection and try again.';
+      // }
+      switch (error.code){
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email already in use';
+          break;
+          case 'auth/invalid-email':
+            errorMessage = 'The email address is badly formatted.';
+            break;
+          case 'auth/operation-not-allowed':
+            errorMessage = 'Password sign-in is disabled for this project.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'The password is too weak.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'A network error occurred. Please try again.';
+            break;
+          default:
+            errorMessage = error.message;
+            break;
+        }  
+        Alert.alert("Signup Error", errorMessage);
+      }finally {
+        setIsLoading(false);
+      }
+    } 
+
+  const login = () => {
+    navigation.navigate('AuthStack', {
+      screen: 'LoginScreen',
+    });
+  }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <View style={styles.header}>
         <Text style={styles.text_header}>be.</Text>
       </View>
@@ -87,20 +146,19 @@ export default function Signup({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.signupBtn}>
+          <TouchableOpacity style={styles.signupBtn} onPress={handleSiguUp}>
             <Text style={styles.signupBtnText}>Sign up</Text>
           </TouchableOpacity>
           <View style={styles.accountContainer}>
             <Text style={styles.account_text}>Already have an Account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')} >
+            <TouchableOpacity onPress={login} >
               <Animatable.Text  style={styles.LoginText}>Login</Animatable.Text> 
             </TouchableOpacity>
           </View> 
         </ScrollView>
-
       </Animatable.View>
-    </View>
-  );
+    </KeyboardAvoidingView>
+  )
 };
 
 const styles = StyleSheet.create({

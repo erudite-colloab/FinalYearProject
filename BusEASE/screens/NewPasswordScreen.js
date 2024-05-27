@@ -11,13 +11,14 @@ const CreateNewPasswordScreen = ( { navigation }) => {
 
   const handleResetPassword = () => {
     // Handle password reset logic
-    navigation.navigate('Login')
-    console.log('Password successfully reset');
+    console.log('Password successfully reset', newPassword);
+    navigation.navigate('LoginScreen')
+    
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('LoginScreen')}>
         <Entypo name="chevron-thin-left" size={24} color="black" style={{alignItems:'center', padding:5}} /> 
       </TouchableOpacity>
       <Text style={styles.title}>Create new password</Text>

@@ -36,7 +36,7 @@ const handleChangeOtp = (index, value) => {
   const handleVerify = () => {
     // Handle OTP verification logic here
     console.log('OTP entered:', otp.join(''));
-    navigation.navigate('NewPassword');
+    navigation.navigate('AuthStack', {screen: 'NewPasswordScreen'});
   };
 
   const handleResend = () => {

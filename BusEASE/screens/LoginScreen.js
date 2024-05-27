@@ -2,26 +2,84 @@ import { View,
         Text, 
         StyleSheet ,
         TextInput, 
+        KeyboardAvoidingView,
+        TouchableOpacity,
+        Alert,
       } from 'react-native';
 import React, { useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
- 
-
-
+import { auth } from "../firebase/firebaseConfig";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(''); 
-
+  const [isLoading, setIsLoading] = useState(false); 
+  
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-  
+
+  const handleLogin = async () => {
+    // setIsLoading(true);
+    // await signInWithEmailAndPassword(auth, email, password)
+    //   .then(userCredentials => {
+    //     const user = userCredentials.user;
+    //     console.log("Login successful: ", user.email);
+    //   }).catch(error => console.log(error.code));
+    //   setIsLoading(false); 
+    setIsLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
+      const user = userCredential.user;
+      Alert.alert("Login successful", "Welcome back!");
+      // Navigate to home or main screen if needed
+      navigation.navigate('MainNavigator');
+    } catch (error) {
+      console.error(error);
+      let errorMessage = 'An error occurred. Please try again.';
+
+      // if (error.code === 'auth/network-request-failed') {
+      //   errorMessage = 'Network error. Please check your internet connection and try again.';
+      // }
+      switch (error.code){
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email already in use';
+          break;
+          case 'auth/invalid-email':
+            errorMessage = 'The email address is badly formatted.';
+            break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid credentials';
+            break; 
+          case 'auth/operation-not-allowed':
+            errorMessage = 'Password sign-in is disabled for this project.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'The password is too weak.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'A network error occurred. Please try again.';
+            break;
+          default:
+            errorMessage = error.message;
+            break;
+        }   
+      Alert.alert("Login failed", errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+    
+  }
+
+  const signupBtn = () => {
+     navigation.navigate('AuthStack', {
+      screen: 'SignUpScreen',
+     })
+  } 
   
   return (
     <View style={styles.container}>
@@ -34,48 +92,50 @@ export default function Login({ navigation }) {
       >
         <Text style={styles.text_footerh} >Login Account</Text>
         <Text style={styles.text_footerP}>Hello, welcome back to your account.</Text>
-
-      <Text style={styles.text_email}>Email/Phone number</Text>
-        <View style={styles.action}>
-          <TextInput 
-            style={styles.textInput}
-            placeholder='Enter your email or phone number'
-            autoCapitalize='none'
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
-
-        <Text style={styles.text_email}>Password</Text>
+      <KeyboardAvoidingView behavior='padding'>     
+        <Text style={styles.text_email}>Email/Phone number</Text>
           <View style={styles.action}>
             <TextInput 
               style={styles.textInput}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!isPasswordVisible}
-              placeholder='Enter your password'
+              placeholder='Enter your email or phone number'
               autoCapitalize='none'
+              value={email}
+              onChangeText={setEmail}
             />
-            <TouchableOpacity onPress={togglePasswordVisibility} style={styles.icon}>
-              <Feather
-                name={ isPasswordVisible ? 'eye' : 'eye-off'}
-                color={'black'}
-                size={24}
-              />
-            </TouchableOpacity>  
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-          </TouchableOpacity>
+          <Text style={styles.text_email}>Password</Text>
+            <View style={styles.action}>
+              <TextInput 
+                style={styles.textInput}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!isPasswordVisible}
+                placeholder='Enter your password'
+                autoCapitalize='none'
+              />
+              <TouchableOpacity onPress={togglePasswordVisibility} style={styles.icon}>
+                <Feather
+                  name={ isPasswordVisible ? 'eye' : 'eye-off'}
+                  color={'black'}
+                  size={24}
+                />
+              </TouchableOpacity>  
+            </View>
 
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text style={styles.loginBtnText}>Login</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}disabled={isLoading}>
+              <Text style={styles.loginBtnText}>{isLoading? 'Loading...' : 'Login'}</Text>
+
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
 
           <View style={styles.accountContainer}>
             <Text style={styles.account_text}>Not registered yet?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')} >
+            <TouchableOpacity onPress={signupBtn} >
               <Animatable.Text  style={styles.createAccountText}>Create an Account</Animatable.Text> 
             </TouchableOpacity>
           </View> 
@@ -186,7 +246,4 @@ export default function Login({ navigation }) {
     color: '#1e60ed',
     fontWeight: 'bold',
   },
-
-
-
  });
