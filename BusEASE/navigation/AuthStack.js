@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen'; 
 import ForgotPassword from '../screens/ForgotPassword';
-import NewPasswordScreen from '../screens/NewPasswordScreen';
+import CreateNewPasswordScreen from '../screens/NewPasswordScreen';
 import OTPverification from '../screens/OTPverification';
 
 
@@ -16,7 +16,7 @@ export default function AuthStack () {
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="OTPverification" component={OTPverification} />
-            <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
+            <Stack.Screen name="CreateNewPasswordScreen" component={CreateNewPasswordScreen} />
         </Stack.Navigator>
     )
 

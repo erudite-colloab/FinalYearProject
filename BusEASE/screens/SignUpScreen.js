@@ -10,8 +10,9 @@ import { View,
 import React, {useState} from 'react'
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
-import { auth } from '../firebase/firebaseConfig';
+import { auth,db } from '../firebase/firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function Signup({ navigation }) {
   const [username, setUsername] = useState('');
@@ -26,19 +27,9 @@ export default function Signup({ navigation }) {
   };
   
 
-  const handleSiguUp = async () => {
-    // Handle register logic here
-    // await createUserWithEmailAndPassword(auth, email, password)
-    //   .then(userCredentials => {
-    //     const user = userCredentials.user;
-    //     console.log('Registered with:', user.email);
-    //   })
-    //   .catch(error => console.log(error.code))
-    //   console.log('Signup successful:', { username, email, phoneNumber,});
 
-    //   navigation.navigate('AuthStack', {
-    //     screen: 'LoginScreen',
-    //   });
+  const handleSiguUp = async (username, email, password, phoneNumber ) => {
+   
     setIsLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
@@ -46,6 +37,11 @@ export default function Signup({ navigation }) {
       Alert.alert("Signup successful", "Welcome back!");
       // Navigate to home or main screen if needed
       navigation.navigate('MainNavigator');
+      await setDoc(doc(db, "users", userCredential?.user?.uid),{
+        username,
+        phoneNumber,
+        userId: userCredential?.user?.uid 
+      });
     } catch (error) {
       console.error(error);
       let errorMessage = 'An error occurred. Please try again.';
