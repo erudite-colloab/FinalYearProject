@@ -1,23 +1,15 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { auth } from '../firebase/firebaseConfig';
+import { AuthContext } from '../context/AuthContext';
 
-const handleBack = () => {
-  auth
-    .signOut()
-    .then(() => {
-      navigation.navigate('AuthStack', {
-        screen: 'LoginScreen',
-      });
-    })
-    .catch((error) => alert(error.message));
-};
 
 const SettingsScreen = () => {
+  const {logout} = useContext(AuthContext)
   return (
     <View style={styles.container}>
       <Text>SettingsScreen</Text>
-      <Button title="Go back" onPress={handleBack} />
+      <Button title="Go back" onPress={logout} />
     </View>
   )
 }

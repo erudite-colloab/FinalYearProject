@@ -6,8 +6,8 @@ const Stack = createStackNavigator();
 
 const TicketsStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Tickets" component={TicketsScreen}  />
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Screen name="Ticket" component={TicketsScreen}  />
     </Stack.Navigator>
   );
 };

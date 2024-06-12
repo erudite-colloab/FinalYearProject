@@ -8,9 +8,7 @@ import React from 'react'
 
 export default function GetStartedScreen( {navigation} ) {
   const login = () => {
-    navigation.navigate('AuthStack', {
-      screen: 'LoginScreen',
-    });
+    navigation.navigate('LoginScreen');
   }
 
   return (

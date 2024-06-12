@@ -7,6 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppNavigator from './navigation/AppNavigator';
+import { AuthContextProvider } from './context/AuthContext';
+import { Navigation } from './navigation';
 
 
 
@@ -15,9 +17,12 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    <AuthContextProvider>
+
     <NavigationContainer>
-      <AppNavigator />
+      <Navigation />
     </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 

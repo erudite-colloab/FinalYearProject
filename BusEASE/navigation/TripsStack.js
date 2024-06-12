@@ -6,8 +6,8 @@ const Stack = createStackNavigator();
 
 const TripsStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Trips" component={TripsScreen}  />
+    <Stack.Navigator screenOptions={{headerShown:false}} >
+      <Stack.Screen name="Trip" component={TripsScreen}  />
     </Stack.Navigator>
   );
 };

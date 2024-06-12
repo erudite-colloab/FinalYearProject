@@ -6,7 +6,6 @@ import AuthStack from './AuthStack';
 import MainNavigator from './MainNavigator';
 //import LoadingScreen from '../screens/LoadingScreen';
 //import GetStartedScreen from '../screens/GetStartedScreen';
-
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase/firebaseConfig';
 import OnboardingNav from '../navigation/OnboardingNav';
@@ -16,12 +15,17 @@ const AppStack = createNativeStackNavigator();
 const AppNavigator = () => {
    const [ user, setUser ] = useState(null);
    const [ isLoading, setIsLoading ] = useState(true);
+   const [ error, setError ] = useState('');
 
   
    useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       setUser(user);
       console.log("user", user);
+      setIsLoading(false);
+      setError('');
+    }, error => {
+      setError("Failed to authenticate. Please try again.");
       setIsLoading(false);
     });
     return () => unsubscribe();
@@ -37,10 +41,18 @@ const AppNavigator = () => {
       </View>
     );
   }
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{error}</Text> // Display the error message
+      </View>
+    );
+  }
     
   return (
     
-        <AppStack.Navigator screenOptions={{ headerShown: false }}>
+        <AppStack.Navigator screenOptions={{ headerShown: false }} initialRouteName='MainNavigator'>
             {user ? (
                 <AppStack.Screen 
                     name="MainNavigator"
@@ -62,8 +74,7 @@ const AppNavigator = () => {
               </>    
             )}
         </AppStack.Navigator>
-   
-    
+  
   );
 }
 

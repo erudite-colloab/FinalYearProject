@@ -7,20 +7,22 @@ import { View,
          KeyboardAvoidingView,
          Alert,
        } from 'react-native'
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
 import { auth,db } from '../firebase/firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Signup({ navigation }) {
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const {isLoading, handleSignUp} = useContext(AuthContext)
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -28,57 +30,8 @@ export default function Signup({ navigation }) {
   
 
 
-  const handleSiguUp = async (username, email, password, phoneNumber ) => {
-   
-    setIsLoading(true);
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
-      const user = userCredential.user;
-      Alert.alert("Signup successful", "Welcome back!");
-      // Navigate to home or main screen if needed
-      navigation.navigate('MainNavigator');
-      await setDoc(doc(db, "users", userCredential?.user?.uid),{
-        username,
-        phoneNumber,
-        userId: userCredential?.user?.uid 
-      });
-    } catch (error) {
-      console.error(error);
-      let errorMessage = 'An error occurred. Please try again.';
-
-      // if (error.code === 'auth/network-request-failed') {
-      //   errorMessage = 'Network error. Please check your internet connection and try again.';
-      // }
-      switch (error.code){
-        case 'auth/email-already-in-use':
-          errorMessage = 'Email already in use';
-          break;
-          case 'auth/invalid-email':
-            errorMessage = 'The email address is badly formatted.';
-            break;
-          case 'auth/operation-not-allowed':
-            errorMessage = 'Password sign-in is disabled for this project.';
-            break;
-          case 'auth/weak-password':
-            errorMessage = 'The password is too weak.';
-            break;
-          case 'auth/network-request-failed':
-            errorMessage = 'A network error occurred. Please try again.';
-            break;
-          default:
-            errorMessage = error.message;
-            break;
-        }  
-        Alert.alert("Signup Error", errorMessage);
-      }finally {
-        setIsLoading(false);
-      }
-    } 
-
   const login = () => {
-    navigation.navigate('AuthStack', {
-      screen: 'LoginScreen',
-    });
+    navigation.navigate('LoginScreen');
   }
 
   return (
@@ -142,8 +95,9 @@ export default function Signup({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.signupBtn} onPress={handleSiguUp}>
-            <Text style={styles.signupBtnText}>Sign up</Text>
+          <TouchableOpacity style={styles.signupBtn} onPress={() => handleSignUp(email, password, username, phoneNumber)}>
+           
+            <Text style={styles.signupBtnText}>{isLoading? 'Loading...' : 'Sign up'}</Text>
           </TouchableOpacity>
           <View style={styles.accountContainer}>
             <Text style={styles.account_text}>Already have an Account?</Text>

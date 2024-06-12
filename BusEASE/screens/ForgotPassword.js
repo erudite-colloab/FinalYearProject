@@ -1,36 +1,44 @@
 import { View, 
-         Text, 
-         Button, 
+         Text,  
          StyleSheet ,
          TouchableOpacity,
          Image, 
          TextInput,
          KeyboardAvoidingView,
+         Alert
         } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Entypo } from '@expo/vector-icons';
+import { AuthContext } from '../context/AuthContext';
+
 
 export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState('');
+  const { passwordReset } = useContext(AuthContext);
 
   const handleSendCode = () => {
-    //Handle send code lgic here 
-    console.log('Send Code to:', email);
-    //navigate to OPT Verification screen
-    navigation.navigate('OTPverification')
+    if  (!email) {
+      Alert.alert('Please enter your email address');
+      return;
+    }
+     //Handle send code lgic here 
+    //console.log('Send Code to:', email);
+    passwordReset(email);
+    navigation.navigate('OTPverification');
+   
   };
 
-  const login = () => {
-    navigation.navigate('AuthStack', {
-      screen: 'LoginScreen',
-    });
-  }
+  const loginBack = () => {
+    navigation.navigate('LoginScreen')
+  };
+
+  
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <TouchableOpacity 
         style={styles.backButton}
-        onPress={login}
+        onPress={loginBack}
       >
         <Entypo name="chevron-thin-left" size={24} color="black" style={{alignItems:'center', padding:5}} />
       </TouchableOpacity>

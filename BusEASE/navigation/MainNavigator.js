@@ -31,9 +31,10 @@ export default function MainNavigator() {
           },
           tabBarActiveTintColor : 'tomato',
           tabBarInactiveTintColor : 'gray',
+          tabBarHideOnKeyboard: true,
           tabBarStyle: {
             position: 'absolute',
-            height: 60,
+            height: 50,
             //borderRadius: 10,
             //right: 10,
             //left: 10,
@@ -42,7 +43,7 @@ export default function MainNavigator() {
           })} 
         >
           <Tab.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-          <Tab.Screen name="Tickets" component={TicketsStack} />
+          <Tab.Screen name="Tickets" component={TicketsStack} options={{headerShown: false}} />
           <Tab.Screen name="Trips" component={TripsStack} />
           <Tab.Screen name="Settings" component={SettingsStack} />
         </Tab.Navigator>

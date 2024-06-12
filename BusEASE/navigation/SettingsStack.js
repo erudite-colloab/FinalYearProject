@@ -6,8 +6,8 @@ const Stack = createStackNavigator();
 
 const SettingsStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: true }} />
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Screen name="Setting" component={SettingsScreen}  />
     </Stack.Navigator>
   );
 };
