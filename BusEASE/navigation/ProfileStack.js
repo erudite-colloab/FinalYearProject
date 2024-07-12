@@ -1,15 +1,16 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
-const SettingsStack = () => {
+const ProfileStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown:false}}>
-      <Stack.Screen name="Setting" component={SettingsScreen}  />
+      <Stack.Screen name='Profiles' component={ProfileScreen} options={{headerShown: false}}/>
+     
     </Stack.Navigator>
   );
 };
 
-export default SettingsStack;
+export default ProfileStack;

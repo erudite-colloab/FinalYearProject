@@ -76,7 +76,15 @@ const TripResultsScreen = ({ navigation }) => {
           <Text style={styles.companyName}>{item.company}</Text>
         </View>
         <Text style={styles.price}>{item.price} {item.currency}</Text>
-        <TouchableOpacity style={styles.buyButton} onPress={() => Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`)}>
+        <TouchableOpacity 
+          style={styles.buyButton} 
+          //</View>onPress={() => Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`)} && navigation.navigate("SelectSeatScreen")  >
+          onPress={() => {
+            Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`, [
+              { text: "OK", onPress: () => navigation.navigate("SelectSeat") },
+              { text: "Cancel", onPress: () => {} }, // Optional: Add a cancel button
+            ]);
+          }} >
           <Text style={styles.buyButtonText}>Buy Ticket</Text>
         </TouchableOpacity>
       </View>

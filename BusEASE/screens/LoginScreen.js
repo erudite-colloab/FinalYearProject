@@ -27,50 +27,6 @@ export default function Login({ navigation }) {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  // const handleLogin = async () => {
-    
-  //   setIsLoading(true);
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
-  //     const user = userCredential.user;
-  //     //getUserInfo(userCredential.user)
-  //     Alert.alert("Login successful", "Welcome back!");
-  //     // Navigate to home or main screen if needed
-  //     navigation.navigate('MainNavigator');
-  //   } catch (error) {
-  //     console.error(error);
-  //     let errorMessage = 'An error occurred. Please try again.';
-
-     
-  //     switch (error.code){
-  //       case 'auth/email-already-in-use':
-  //         errorMessage = 'Email already in use';
-  //         break;
-  //         case 'auth/invalid-email':
-  //           errorMessage = 'The email address is badly formatted.';
-  //           break;
-  //         case 'auth/invalid-credential':
-  //           errorMessage = 'Invalid credentials';
-  //           break; 
-  //         case 'auth/operation-not-allowed':
-  //           errorMessage = 'Password sign-in is disabled for this project.';
-  //           break;
-  //         case 'auth/weak-password':
-  //           errorMessage = 'The password is too weak.';
-  //           break;
-  //         case 'auth/network-request-failed':
-  //           errorMessage = 'A network error occurred. Please try again.';
-  //           break;
-  //         default:
-  //           errorMessage = error.message;
-  //           break;
-  //       }   
-  //     Alert.alert("Login failed", errorMessage);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-    
-  // }
 
   const signupBtn = () => {
      navigation.navigate('SignUpScreen')
