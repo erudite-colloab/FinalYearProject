@@ -15,13 +15,13 @@ const CustomSwitchButton = ({ onSelectSwitch }) => {
         style={[styles.switchButton, active === 1 && styles.activeButton]}
         onPress={() => updateSwitchData(1)}
       >
-        <Text style={[styles.switchText, active === 1 && styles.activeText]}>One Way</Text>
+        <Text style={[styles.switchText, active === 1 && styles.activeText]}>Pick-up</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.switchButton, active === 2 && styles.activeButton]}
         onPress={() => updateSwitchData(2)}
       >
-        <Text style={[styles.switchText, active === 2 && styles.activeText]}>Round Trip</Text>
+        <Text style={[styles.switchText, active === 2 && styles.activeText]}>Drop-off</Text>
       </TouchableOpacity>
     </View>
   );

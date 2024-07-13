@@ -88,7 +88,7 @@ const SeatSelectionScreen = ({ navigation }) => {
         title="Confirm Seats"
         buttonStyle={styles.confirmButton}
         containerStyle={styles.confirmButtonContainer}
-        onPress={() => navigation.navigate('Checkout', { selectedSeats })}
+        onPress={() => navigation.navigate('PickUpDropOff')}
       />
     </SafeAreaView>
   );

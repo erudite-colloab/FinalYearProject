@@ -7,8 +7,9 @@ import { auth } from '../firebase/firebaseConfig';
 import CustomSwitchButton from '../component/CustomSwitchButton';
 import { AuthContext } from '../context/AuthContext';
 import * as Animatable from 'react-native-animatable';
+import { Navigation } from '../navigation';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [from, setFrom] = useState('Kumasi, Asafo');
   const [to, setTo] = useState('Accra, Circle');
   const [departureDate, setDepartureDate] = useState(new Date('2024-07-04'));
@@ -61,11 +62,9 @@ const HomeScreen = () => {
           </View>
 
           <View style={styles.tripCard}>
-            <View style={styles.row}>
-              <View style={styles.iconContainer}>
-                <FontAwesome name="bus" size={24} color="grey" />
-                <View style={styles.dashedLine}></View>
-              </View>
+            <View style={styles.row}>              
+              <FontAwesome name="bus" size={24} color="grey" style={styles.busIcon} />
+              <View style={styles.dashedLine}></View>               
               <View style={styles.column}>
                 <Text style={styles.label}>From</Text>
                 <TextInput 
@@ -79,11 +78,11 @@ const HomeScreen = () => {
             </View>
 
             <View style={styles.row}>
-              <FontAwesome name="bus" size={24} color="grey" />
+              <FontAwesome name="bus" size={24} color="grey" style={styles.busIcon} />
               <View style={styles.column}>
                 <Text style={styles.label}>To</Text>
                 <TextInput 
-                  style={styles.input} 
+                  style={[styles.input, styles.bottomInput]} 
                   placeholder='Kumasi'
                   value={to}
                   onChangeText={setTo}
@@ -92,47 +91,44 @@ const HomeScreen = () => {
             </View>
           </View>
 
-        <View style={styles.dateContainer}>
-            <TouchableOpacity style={styles.dateWrapper} onPress={() => setShowDeparturePicker(true)}>
-              <Ionicons name="calendar-outline" size={20} color="gray" style={styles.inputIcon} />
-              <TextInput 
-                style={styles.dateInput} 
-                value={departureDate.toDateString()} 
-                placeholder="Departure" 
-                //editable={false} 
-              />
-            </TouchableOpacity>
-            {tripType === 2 && (
-              <TouchableOpacity style={styles.dateWrapper} onPress={() => setShowReturnPicker(true)}>
-                <Ionicons name="calendar-outline" size={20} color="gray" style={styles.inputIcon} />
-                <TextInput 
-                  style={styles.dateInput} 
-                  value={returnDate.toDateString()} 
-                  placeholder="Return Date" 
-                  //editable={false} 
-                />
-              </TouchableOpacity>
-            )}
+          <View style={styles.dateCard}>
+        <TouchableOpacity style={[styles.dateWrapper, styles.dateLeft]} onPress={() => setShowDeparturePicker(true)}>
+          <Ionicons name="calendar-outline" size={24} color="grey" />
+          <View style={styles.dateTextContainer}>
+            <Text style={styles.dateLabel}>Departure</Text>
+            <Text style={styles.dateText}>{departureDate.toLocaleDateString()}</Text>
           </View>
+        </TouchableOpacity>
+        {tripType === 2 && (
+          <TouchableOpacity style={[styles.dateWrapper, styles.dateRight]} onPress={() => setShowReturnPicker(true)}>
+            <Ionicons name="calendar-outline" size={24} color="grey" />
+            <View style={styles.dateTextContainer}>
+              <Text style={styles.dateLabel}>Return Date</Text>
+              <Text style={styles.dateText}>{returnDate.toLocaleDateString()}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
 
-          {showDeparturePicker && (
-            <DateTimePicker
-              value={departureDate}
-              mode="date"
-              display="default"
-              onChange={onDepartureDateChange}
-            />
-          )}
-          {tripType === 2 && showReturnPicker && (
-            <DateTimePicker
-              value={returnDate}
-              mode="date"
-              display="default"
-              onChange={onReturnDateChange}
-            />
-          )}
+      {showDeparturePicker && (
+        <DateTimePicker
+          value={departureDate}
+          mode="date"
+          display="default"
+          onChange={onDepartureDateChange}
+        />
+      )}
+      {tripType === 2 && showReturnPicker && (
+        <DateTimePicker
+          value={returnDate}
+          mode="date"
+          display="default"
+          onChange={onReturnDateChange}
+        />
+      )}
 
           <View style={styles.passengerContainer}>
+            <Ionicons name="people-sharp" size={24} color="gray" />
             <Text style={styles.passengerText}>Passengers</Text>
             <View style={styles.passengerButtons}>
               <TouchableOpacity onPress={() => setPassengers(passengers > 1 ? passengers - 1 : 1)}>
@@ -148,6 +144,7 @@ const HomeScreen = () => {
         
         <Button
           title="Search Trip"
+          onPress={ navigation.navigate('TicketsScreen')}
           buttonStyle={styles.searchButton}
           containerStyle={styles.searchButtonContainer}
           icon={<Ionicons name="search" size={30} color="white" />}
@@ -201,25 +198,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
 
   },
-  footer: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    elevation: 10,
-  },
+  // footer: {
+  //   flex: 1,
+  //   backgroundColor: 'white',
+  //   borderTopLeftRadius: 20,
+  //   borderTopRightRadius: 20,
+  //   paddingVertical: 30,
+  //   paddingHorizontal: 20,
+  //   elevation: 10,
+  // },
   switchContainer: {
     paddingHorizontal: 20,
-    marginBottom: 6,
+    marginBottom: 0,
   },
+
   tripCard: {
     backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -227,7 +225,10 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderColor: '#1E60ED',
     borderWidth: 1,
-    marginTop: 1
+    marginTop: 0,
+    // marginBottom: 5,
+     height: 158,
+    // padding: 20
   },
   row: {
     flexDirection: 'row',
@@ -238,12 +239,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
   },
-  iconContainer: {
-    alignItems: 'center',
+  busIcon: {
+    marginRight: 10
+  },
+  bottomInput: {
+    marginBottom: 5,
   },
   dashedLine: {
     width: 1,
-    height: 20,
+    height: 30,
     borderWidth: 1,
     borderColor: 'grey',
     borderStyle: 'dashed',
@@ -251,15 +255,16 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: 'grey',
+    color: '#545455',
     marginBottom: 2,
   },
   input: {
     fontSize: 16,
     fontWeight: 'bold',
     padding: 5,
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     borderBottomColor: 'gray',
+
   },
   topInput: {
     borderBottomWidth: 1,
@@ -268,30 +273,50 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     top: 30,
   },
-  dateContainer: {
+
+  dateCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
-    marginTop: 5,
-    alignSelf: 'center',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderColor: '#1E60ED',
+    borderWidth: 1,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
   },
   dateWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    width: '80%',
-    
-  },
-  dateInput: {
     flex: 1,
-    height: 50,
-    width: 100,
-    fontSize: 16,
+    padding: 10,
   },
+  dateLeft: {
+    borderRightWidth: 1,
+    borderRightColor: '#545455',
+  },
+  dateRight: {
+    borderLeftWidth: 1,
+    borderLeftColor: 'gray',
+  },
+  dateTextContainer: {
+    marginLeft: 10,
+  },
+  dateLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  dateText: {
+    fontSize: 14,
+    color: 'gray',
+  },
+
   passengerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -299,6 +324,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '80%',
     alignSelf: 'center',
+    marginTop: 15,
   },
   passengerText: {
     fontSize: 18,
@@ -316,11 +342,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E60ED',
     borderRadius: 20,
     height: 50,
+    marginHorizontal: 20,
   },
   searchButtonContainer: {
     margin: 20,
     width: '100%',
     alignSelf: 'center',
+    //marginHorizontal: 20,
 
   },
 });

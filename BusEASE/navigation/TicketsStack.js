@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFocusEffect } from '@react-navigation/native';
 import TicketsScreen from '../screens/TicketsScreen';
 import SelectSeatScreen from '../screens/SelectSeatScreen';
+import PickupDropoffScreen from '../screens/PickUpDropOffScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,11 @@ const TicketsStack = ({ navigation }) => {
         // options={({ route }) => ({
         //   tabBarStyle: { display: 'none' }
         // })}
+      />
+      <Stack.Screen
+        name='PickUpDropOff'
+        component={PickupDropoffScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
