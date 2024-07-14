@@ -82,8 +82,8 @@ const TripResultsScreen = ({ navigation }) => {
           onPress={() => {
             Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`, [
               { text: "OK", onPress: () => navigation.navigate("SelectSeat") },
-              { text: "Cancel", onPress: () => {} }, // Optional: Add a  button
-            ]);cancel
+              { text: "Cancel", onPress: () => {navigation.goBack()} }, // Optional: Add a  button
+            ])
           }} >
           <Text style={styles.buyButtonText}>Buy Ticket</Text>
         </TouchableOpacity>

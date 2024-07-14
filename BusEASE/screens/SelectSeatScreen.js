@@ -13,6 +13,7 @@ const seats = [
 
 const SeatSelectionScreen = ({ navigation }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [status, setStatus] =useState(false);
 
   const toggleSeatSelection = (seatId) => {
     setSelectedSeats((prevSelectedSeats) =>

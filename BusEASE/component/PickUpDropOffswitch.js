@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CustomSwitchButton = ({ onSelectSwitch }) => {
+const PickUpDropOffSwitch = ({ onSelectSwitch }) => {
   const [active, setActive] = useState(1);
 
   const updateSwitchData = (value) => {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomSwitchButton;
+export default PickUpDropOffSwitch;

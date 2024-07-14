@@ -7,7 +7,7 @@ import { auth } from '../firebase/firebaseConfig';
 import CustomSwitchButton from '../component/CustomSwitchButton';
 import { AuthContext } from '../context/AuthContext';
 import * as Animatable from 'react-native-animatable';
-import { Navigation } from '../navigation';
+
 
 const HomeScreen = ({ navigation }) => {
   const [from, setFrom] = useState('Kumasi, Asafo');
@@ -144,7 +144,7 @@ const HomeScreen = ({ navigation }) => {
         
         <Button
           title="Search Trip"
-          onPress={ navigation.navigate('TicketsScreen')}
+          onPress={ navigation.navigate('Tickets')}
           buttonStyle={styles.searchButton}
           containerStyle={styles.searchButtonContainer}
           icon={<Ionicons name="search" size={30} color="white" />}
