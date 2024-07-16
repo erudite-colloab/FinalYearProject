@@ -15,17 +15,18 @@ const PickupDropoffScreen = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState("pickup");
   const [pickupPoint, setPickupPoint] = useState("");
   const [dropoffPoint, setDropoffPoint] = useState("");
-  const [isVisible, setIsVisible] = useState(true);
+  //const [isVisible, setIsVisible] = useState(true);
   const [from, setFrom] = useState("Kumasi, Asafo");
   const [to, setTo] = useState("Accra, Circle");
+  const [status, setStatus] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: 6.6666,
+          longitude: -1.6163,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -85,8 +86,17 @@ const PickupDropoffScreen = ({ navigation }) => {
         </View>  
       </View>
 
-      <DropOffBottom
-        isVisible={isVisible}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setStatus(true)}
+      >
+        <Text style={{fontSize:18, fontWeight: 'bold', color:'white' }}>Modal</Text>
+      </TouchableOpacity>
+
+      
+
+      { status && <DropOffBottom
+        //isVisible={isVisible}
         onClose={() => setIsVisible(false)}
         onTabChange={setSelectedTab}
         selectedTab={selectedTab}
@@ -94,7 +104,10 @@ const PickupDropoffScreen = ({ navigation }) => {
         dropoffPoint={dropoffPoint}
         setPickupPoint={setPickupPoint}
         setDropoffPoint={setDropoffPoint}
-      />
+        setStatus = {setStatus}
+        navigation={navigation}
+      /> }
+
     </SafeAreaView>
   );
 };
@@ -173,6 +186,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     top: 30,
   },
+  button: {
+    paddingHorizontal: 30,
+    backgroundColor:'#1e60ed',
+    borderRadius: 10,
+    top: 300,
+    position: 'absolute',
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center'
+
+  }
 });
 
 export default PickupDropoffScreen;

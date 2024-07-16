@@ -44,6 +44,12 @@ const SeatSelectionScreen = ({ navigation }) => {
     );
   };
 
+  const handleSeat =() => {
+    setStatus(true);
+   navigation.navigate('PickUpDropOff')
+
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -89,7 +95,8 @@ const SeatSelectionScreen = ({ navigation }) => {
         title="Confirm Seats"
         buttonStyle={styles.confirmButton}
         containerStyle={styles.confirmButtonContainer}
-        onPress={() => navigation.navigate('PickUpDropOff')}
+        //onPress={() => navigation.navigate('PickUpDropOff')}
+        onPress={handleSeat}
       />
     </SafeAreaView>
   );

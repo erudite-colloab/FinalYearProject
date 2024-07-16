@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import TicketsScreen from '../screens/TicketsScreen';
 import SelectSeatScreen from '../screens/SelectSeatScreen';
 import PickupDropoffScreen from '../screens/PickUpDropOffScreen';
+import PassengerDetailsScreen from '../screens/PassengerDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,22 @@ const TicketsStack = ({ navigation }) => {
         name='PickUpDropOff'
         component={PickupDropoffScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen 
+        name='PassengerDetails'
+        component={PassengerDetailsScreen}
+        options={{
+          headerShown: true,
+          title: 'Passenger Details',
+          headerStyle: {
+            backgroundColor: '#1E60ED',
+          },
+          headerTintColor: '#FFFFFF',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24
+          }, 
+        }}
       />
     </Stack.Navigator>
   );
