@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TicketsScreen from '../screens/TicketsScreen';
 import SelectSeatScreen from '../screens/SelectSeatScreen';
 import PickupDropoffScreen from '../screens/PickUpDropOffScreen';
@@ -8,42 +8,36 @@ import PassengerDetailsScreen from '../screens/PassengerDetailsScreen';
 
 const Stack = createStackNavigator();
 
-const TicketsStack = ({ navigation }) => {
-  useFocusEffect(
-    React.useCallback(() => {
-      navigation.getParent()?.setOptions({
-        tabBarStyle: { display: 'none' }
-      });
-      return () => {
-        navigation.getParent()?.setOptions({
-          tabBarStyle: { display: 'flex' },
-        });
-      };
-    }, [navigation])
-  );
-
+const TicketsStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen 
         name="Ticket" 
-        component={TicketsScreen} 
-        //options={{ tabBarVisible: false }} 
+        component={TicketsScreen}
+        options={{
+          headerShown: true,
+          title: 'Tickets',
+          headerStyle: {
+            backgroundColor: '#1E60ED',
+          },
+          headerTintColor: '#FFFFFF',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24
+          },
+        }}
       />
       <Stack.Screen 
         name="SelectSeat" 
-        component={SelectSeatScreen} 
-        // options={({ route }) => ({
-        //   tabBarStyle: { display: 'none' }
-        // })}
-      />
-      <Stack.Screen
-        name='PickUpDropOff'
-        component={PickupDropoffScreen}
-        options={{headerShown: false}}
+        component={SelectSeatScreenWithHideTab}
       />
       <Stack.Screen 
-        name='PassengerDetails'
-        component={PassengerDetailsScreen}
+        name="PickUpDropOff" 
+        component={PickupDropoffScreenWithHideTab} 
+      />
+      <Stack.Screen 
+        name="PassengerDetails"
+        component={PassengerDetailsScreennWithHideTab}
         options={{
           headerShown: true,
           title: 'Passenger Details',
@@ -54,11 +48,83 @@ const TicketsStack = ({ navigation }) => {
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 24
-          }, 
+          },
         }}
       />
     </Stack.Navigator>
   );
+};
+
+const SelectSeatScreenWithHideTab = (props) => {
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const parentNavigation = navigation.getParent();
+      if (parentNavigation) {
+        parentNavigation.setOptions({
+          tabBarStyle: { display: 'none' }
+        });
+      }
+      return () => {
+        if (parentNavigation) {
+          parentNavigation.setOptions({
+            tabBarStyle: { display: 'flex', height: 80 },
+          });
+        }
+      };
+    }, [navigation])
+  );
+
+  return <SelectSeatScreen {...props} />;
+};
+
+const PickupDropoffScreenWithHideTab = (props) => {
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const parentNavigation = navigation.getParent();
+      if (parentNavigation) {
+        parentNavigation.setOptions({
+          tabBarStyle: { display: 'none' }
+        });
+      }
+      return () => {
+        if (parentNavigation) {
+          parentNavigation.setOptions({
+            tabBarStyle: { display: 'flex', height: 80 },
+          });
+        }
+      };
+    }, [navigation])
+  );
+
+  return <PickupDropoffScreen {...props} />;
+};
+
+const PassengerDetailsScreennWithHideTab = (props) => {
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const parentNavigation = navigation.getParent();
+      if (parentNavigation) {
+        parentNavigation.setOptions({
+          tabBarStyle: { display: 'none' }
+        });
+      }
+      return () => {
+        if (parentNavigation) {
+          parentNavigation.setOptions({
+            tabBarStyle: { display: 'flex', height: 80 },
+          });
+        }
+      };
+    }, [navigation])
+  );
+
+  return <PassengerDetailsScreen {...props} />;
 };
 
 export default TicketsStack;

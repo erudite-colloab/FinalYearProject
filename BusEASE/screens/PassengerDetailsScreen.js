@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { AuthContext } from '../context/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const PassengerDetailsScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext); // Get the authenticated user from context
@@ -10,6 +10,12 @@ const PassengerDetailsScreen = ({ navigation }) => {
   const [passengers, setPassengers] = useState({
     adults: [{ firstName: '', lastName: '' }],
     children: [{ firstName: '', lastName: '' }],
+  });
+  const [luggage, setLuggage] = useState({
+    additional: 1,
+    special: 1,
+    additionalPrice: 10.00,
+    specialPrice: 30.00,
   });
 
   const handlePassengerCountChange = (type, operation) => {
@@ -32,6 +38,16 @@ const PassengerDetailsScreen = ({ navigation }) => {
       return {
         ...prevPassengers,
         [type]: updatedPassengers,
+      };
+    });
+  };
+
+  const handleLuggageChange = (type, operation) => {
+    setLuggage((prevLuggage) => {
+      const newCount = operation === 'increase' ? prevLuggage[type] + 1 : prevLuggage[type] - 1;
+      return {
+        ...prevLuggage,
+        [type]: newCount >= 0 ? newCount : 0,
       };
     });
   };
@@ -125,29 +141,61 @@ const PassengerDetailsScreen = ({ navigation }) => {
           ))}
         </View>
 
-        {/* <View style={styles.section}>
-          <Text style={styles.sectionTitle}>2 Seat Reservation</Text>
-          <TouchableOpacity style={styles.selectSeatButton}>
-            <Text style={styles.selectSeatText}>Select your seat</Text>
-            <Ionicons name="chevron-forward" size={24} color="gray" />
-          </TouchableOpacity>
-        </View> */}
-
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>3 Extras</Text>
           <View style={styles.extrasContainer}>
-            <Text style={styles.extraText}>
-              Included per person:
-            </Text>
-            <Text style={styles.extraText}>
-              1 hand luggage | 7kg, 42×30×18 cm
-            </Text>
-            <Text style={styles.extraText}>
-              1 luggage | 20kg, 80×50×30 cm
-            </Text>
+            <Text style={styles.extraText}>Included per person:</Text>
+            <Text style={styles.extraText}>1 hand luggage | 7kg, 42×30×18 cm</Text>
+            <Text style={styles.extraText}>1 luggage | 20kg, 80×50×30 cm</Text>
+            <View style={styles.luggageItem}>
+              <MaterialIcons name="luggage" size={40} color="gray" />
+              <View style={styles.luggageDetails}>
+                <Text style={styles.luggageTitle}>Additional</Text>
+                <Text style={styles.luggageDescription}>20kg 80×50×30 cm</Text>
+                <Text style={styles.luggagePrice}>+₵{luggage.additionalPrice.toFixed(2)}</Text>
+              </View>
+              <View style={styles.luggageControlButtons}>
+                <TouchableOpacity
+                  onPress={() => handleLuggageChange('additional', 'decrease')}
+                  style={styles.luggageControlButton}
+                >
+                  <Ionicons name="remove-circle-outline" size={28} color="gray" />
+                </TouchableOpacity>
+                <Text style={styles.luggageCount}>{luggage.additional}</Text>
+                <TouchableOpacity
+                  onPress={() => handleLuggageChange('additional', 'increase')}
+                  style={styles.luggageControlButton}
+                >
+                  <Ionicons name="add-circle-outline" size={28} color="gray" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.luggageItem}>
+              <MaterialCommunityIcons name="medical-bag" size={40} color="gray" />
+              <View style={styles.luggageDetails}>
+                <Text style={styles.luggageTitle}>Special</Text>
+                <Text style={styles.luggageDescription}>30kg 240 cm (x+y+z)</Text>
+                <Text style={styles.luggagePrice}>+₵{luggage.specialPrice.toFixed(2)}</Text>
+              </View>
+              <View style={styles.luggageControlButtons}>
+                <TouchableOpacity
+                  onPress={() => handleLuggageChange('special', 'decrease')}
+                  style={styles.luggageControlButton}
+                >
+                  <Ionicons name="remove-circle-outline" size={28} color="gray" />
+                </TouchableOpacity>
+                <Text style={styles.luggageCount}>{luggage.special}</Text>
+                <TouchableOpacity
+                  onPress={() => handleLuggageChange('special', 'increase')}
+                  style={styles.luggageControlButton}
+                >
+                  <Ionicons name="add-circle-outline" size={28} color="gray" />
+                </TouchableOpacity>
+              </View>
+            </View>
             <TextInput
               style={styles.extraInput}
-              placeholder="Add extra notes..."
+              placeholder="Add special instructions..."
               multiline
             />
           </View>
@@ -157,7 +205,7 @@ const PassengerDetailsScreen = ({ navigation }) => {
           title="Continue"
           buttonStyle={styles.continueButton}
           containerStyle={styles.continueButtonContainer}
-          onPress={() => {/* Handle continue action */}}
+          onPress={() => {console.log("add something")}}
         />
       </ScrollView>
     </SafeAreaView>
@@ -168,18 +216,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1E60ED',
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
   stepText: {
     fontSize: 14,
@@ -200,10 +236,8 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 5,
     padding: 10,
-    marginTop: 4,
     marginBottom: 10,
     backgroundColor: 'white',
-    marginHorizontal:10,
     fontSize: 16,
   },
   passengerControlContainer: {
@@ -211,12 +245,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
-    
   },
   passengerControlLabel: {
     fontSize: 16,
     fontWeight: 'bold',
-    //marginBottom: 10,
   },
   passengerControlButtons: {
     flexDirection: 'row',
@@ -235,33 +267,10 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 5,
     padding: 10,
-  
   },
   passengerType: {
     fontSize: 14,
     marginBottom: 5,
-    padding: 3,
-    //left: 3,
-    fontWeight: '300',
-    position: 'absolute',
-    top: -12,
-    left: 10,
-    backgroundColor: 'white',
-    paddingHorizontal: 5,
-    zIndex: 1,
-  },
-  selectSeatButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    backgroundColor: 'white',
-  },
-  selectSeatText: {
-    fontSize: 16,
   },
   extrasContainer: {
     borderWidth: 1,
@@ -273,6 +282,39 @@ const styles = StyleSheet.create({
   extraText: {
     fontSize: 14,
     marginBottom: 5,
+  },
+  luggageItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  luggageDetails: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  luggageTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  luggageDescription: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  luggagePrice: {
+    fontSize: 16,
+    color: 'green',
+    fontWeight: '600'
+  },
+  luggageControlButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  luggageControlButton: {
+    paddingHorizontal: 10,
+  },
+  luggageCount: {
+    fontSize: 16,
+    marginHorizontal: 10,
   },
   extraInput: {
     borderWidth: 1,

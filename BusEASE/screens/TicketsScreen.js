@@ -57,7 +57,7 @@ const trips = [
   },
 ];
 
-const TripResultsScreen = ({ navigation }) => {
+const TicketsScreen = ({ navigation }) => {
   const renderTrip = ({ item }) => (
     <View style={styles.tripCard}>
       <View style={styles.tripHeader}>
@@ -128,7 +128,7 @@ const TripResultsScreen = ({ navigation }) => {
   );
 };
 
-export default TripResultsScreen;
+export default TicketsScreen ;
 
 const styles = StyleSheet.create({
   container: {
