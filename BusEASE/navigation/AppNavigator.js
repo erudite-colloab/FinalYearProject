@@ -51,8 +51,8 @@ const AppNavigator = () => {
   }
     
   return (
-    
-        <AppStack.Navigator screenOptions={{ headerShown: false }} initialRouteName='MainNavigator'>
+      <NavigationContainer>
+        <AppStack.Navigator screenOptions={{ headerShown: false }}>
             {user ? (
                 <AppStack.Screen 
                     name="MainNavigator"
@@ -74,6 +74,7 @@ const AppNavigator = () => {
               </>    
             )}
         </AppStack.Navigator>
+      </NavigationContainer>  
   
   );
 }

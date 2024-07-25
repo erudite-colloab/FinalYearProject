@@ -5,6 +5,8 @@ import TicketsScreen from '../screens/TicketsScreen';
 import SelectSeatScreen from '../screens/SelectSeatScreen';
 import PickupDropoffScreen from '../screens/PickUpDropOffScreen';
 import PassengerDetailsScreen from '../screens/PassengerDetailsScreen';
+import SummaryScreen from '../screens/SummaryScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,16 +17,7 @@ const TicketsStack = () => {
         name="Ticket" 
         component={TicketsScreen}
         options={{
-          headerShown: true,
-          title: 'Tickets',
-          headerStyle: {
-            backgroundColor: '#1E60ED',
-          },
-          headerTintColor: '#FFFFFF',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 24
-          },
+          headerShown: false,
         }}
       />
       <Stack.Screen 
@@ -51,6 +44,39 @@ const TicketsStack = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="Summary"
+        component={SummaryScreen}
+        options={{
+          headerShown: true,
+          title: 'Summary',
+          headerStyle: {
+            backgroundColor: '#1E60ED',
+          },
+          headerTintColor: '#FFFFFF',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24
+          },
+        }}
+      />
+      <Stack.Screen 
+        name="Payment"
+        component={PaymentScreen}
+        options={{
+          headerShown: true,
+          title: 'Make Payment',
+          headerStyle: {
+            backgroundColor: '#1E60ED',
+          },
+          headerTintColor: '#FFFFFF',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24
+          },
+        }}
+      />
+      
     </Stack.Navigator>
   );
 };

@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import React, { useContext, useState, useRef } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Switch } from 'react-native';
 import { Button } from 'react-native-elements';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 const PassengerDetailsScreen = ({ navigation }) => {
-  const { user } = useContext(AuthContext); // Get the authenticated user from context
+  const { user } = useContext(AuthContext);
   const [email, setEmail] = useState(user ? user.email : '');
   const [passengers, setPassengers] = useState({
     adults: [{ firstName: '', lastName: '' }],
@@ -17,6 +18,17 @@ const PassengerDetailsScreen = ({ navigation }) => {
     additionalPrice: 10.00,
     specialPrice: 30.00,
   });
+  const [agree, setAgree] = useState(false);
+
+  const tripDetails = {
+    from: 'Kumasi, Asafo',
+    to: 'Accra, Circle',
+    departureTime: '06:05AM',
+    arrivalTime: '12:00PM',
+    tripPrice: 120,
+  };
+
+  const sheetRef = useRef(null);
 
   const handlePassengerCountChange = (type, operation) => {
     setPassengers((prevPassengers) => {
@@ -52,14 +64,56 @@ const PassengerDetailsScreen = ({ navigation }) => {
     });
   };
 
+  const handleContinue = () => {
+    sheetRef.current.snapToIndex(0);
+  };
+
+  const renderSummaryContent = () => (
+    <View style={styles.bottomSheetContent}>
+      <Text style={styles.summaryTitle}>Summary</Text>
+      <Text>{passengers.adults.length} adults, {passengers.children.length} child</Text>
+      <Text style={styles.sectionTitle}>Trip Details</Text>
+      <View style={styles.tripDetailRow}>
+        <Text>{tripDetails.departureTime}</Text>
+        <Text style={styles.tripLocation}>{tripDetails.from}</Text>
+      </View>
+      <View style={styles.tripDetailRow}>
+        <Text>{tripDetails.arrivalTime}</Text>
+        <Text style={styles.tripLocation}>{tripDetails.to}</Text>
+      </View>
+      <View style={styles.tripDetailRow}>
+        <Text>Service Fee</Text>
+        <Text>₵{(luggage.additional * luggage.additionalPrice + luggage.special * luggage.specialPrice).toFixed(2)}</Text>
+      </View>
+      <View style={styles.tripDetailRow}>
+        <Text>Total</Text>
+        <Text>₵{(tripDetails.tripPrice + luggage.additional * luggage.additionalPrice + luggage.special * luggage.specialPrice).toFixed(2)}</Text>
+      </View>
+      <View style={styles.termsContainer}>
+        <Switch value={agree} onValueChange={setAgree} />
+        <Text>I declare to have read the Privacy Policy and agree to the T&C of Booking and T&C of Carriage</Text>
+      </View>
+      <Button
+        title="PROCEED TO PAYMENT"
+        buttonStyle={styles.continueButton}
+        containerStyle={styles.continueButtonContainer}
+        disabled={!agree}
+        onPress={() => navigation.navigate('Summary', {
+          passengers,
+          luggage,
+          tripDetails,
+          email,
+        })}
+      />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        
         <Text style={styles.stepText}>Step 4 of 5</Text>
-
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>1 Passenger Details</Text>
+          <Text style={styles.sectionTitle}>Passenger Details</Text>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -140,9 +194,8 @@ const PassengerDetailsScreen = ({ navigation }) => {
             </View>
           ))}
         </View>
-
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>3 Extras</Text>
+          <Text style={styles.sectionTitle}>Extras</Text>
           <View style={styles.extrasContainer}>
             <Text style={styles.extraText}>Included per person:</Text>
             <Text style={styles.extraText}>1 hand luggage | 7kg, 42×30×18 cm</Text>
@@ -200,14 +253,22 @@ const PassengerDetailsScreen = ({ navigation }) => {
             />
           </View>
         </View>
-
         <Button
           title="Continue"
           buttonStyle={styles.continueButton}
           containerStyle={styles.continueButtonContainer}
-          onPress={() => {console.log("add something")}}
+          onPress={handleContinue}
         />
       </ScrollView>
+      <BottomSheet
+        ref={sheetRef}
+        index={-1}
+        snapPoints={['50%', '100%']}
+        enablePanDownToClose={true}
+        backgroundComponent={() => <View style={{ backgroundColor: 'white', flex: 1, borderTopLeftRadius: 20, borderTopRightRadius: 20 }} />}
+      >
+        {renderSummaryContent()}
+      </BottomSheet>
     </SafeAreaView>
   );
 };
@@ -331,6 +392,29 @@ const styles = StyleSheet.create({
   },
   continueButtonContainer: {
     margin: 20,
+  },
+  bottomSheetContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    height: '100%',
+  },
+  summaryTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  tripDetailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
+  },
+  tripLocation: {
+    fontWeight: 'bold',
+  },
+  termsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 

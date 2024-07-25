@@ -16,12 +16,16 @@ export default function MainNavigator() {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
+            size = focused ? 30 : 25; // Change the size here
           } else if (route.name === 'Tickets') {
             iconName = focused ? 'ticket' : 'ticket-outline';
+            size = focused ? 30 : 25; // Change the size here
           } else if (route.name === 'Trips') {
             iconName = focused ? 'list' : 'list-outline';
+            size = focused ? 30 : 25; // Change the size here
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
+            size = focused ? 30 : 25; // Change the size here
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -29,8 +33,8 @@ export default function MainNavigator() {
         tabBarInactiveTintColor: 'gray',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          position: 'absolute',
-          height: 80,
+          //position: 'absolute',
+          height: 75,
           display: "flex",
         },
       })}

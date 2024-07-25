@@ -52,8 +52,8 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleSearchTrip = () => {
-    //navigation.navigate("Tickets", { screen: "Ticket" });
-    navigation.navigate("Ticket" );
+    navigation.navigate("Tickets", { screen: "Ticket" });
+    //navigation.navigate("Ticket" );
   };
 
 
