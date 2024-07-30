@@ -170,9 +170,4 @@ const styles = StyleSheet.create({
 });
 
 
-
-
-
-
-
-export default OTPverification
+export default OTPverification;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,6 +12,10 @@ import {
 } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { Picker } from "@react-native-picker/picker";
+import SupportBottomSheet from '../component/SupportBottomSheet';
+//import { useNavigation } from "@react-navigation/native";
+
+
 
 const SettingsScreen = ({ navigation }) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -32,6 +36,26 @@ const SettingsScreen = ({ navigation }) => {
     // Handle delete account logic here
     setDeleteAccountModalVisible(false);
   };
+
+  const sheetRef = useRef(null);
+  //const navigation = useNavigation();
+
+  const openSheet = () => {
+    sheetRef.current?.expand();
+    //navigation.setOptions({ tabBarVisible: false });
+  };
+
+  const closeSheet = () => {
+    sheetRef.current?.close();
+    //navigation.setOptions({ tabBarVisible: true });
+  };
+
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     tabBarVisible: true,
+  //   });
+  // }, [navigation]);
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -79,7 +103,7 @@ const SettingsScreen = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openSheet}>
             <View style={styles.row}>
               <FeatherIcon name="headphones" size={24} color="#000" />
               <Text style={styles.rowLabel}>Support</Text>
@@ -223,6 +247,8 @@ const SettingsScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+
+      <SupportBottomSheet sheetRef={sheetRef} closeSheet={closeSheet} />
     </SafeAreaView>
   );
 };

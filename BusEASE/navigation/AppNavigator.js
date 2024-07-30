@@ -73,6 +73,7 @@ const AppNavigator = () => {
                 />
               </>    
             )}
+            <AppStack.Screen name="ProfileStack" component={ProfileStack} />
         </AppStack.Navigator>
       </NavigationContainer>  
   

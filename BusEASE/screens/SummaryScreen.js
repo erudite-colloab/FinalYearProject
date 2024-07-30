@@ -1,17 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch } from 'react-native';
 import { Button } from 'react-native-elements';
-import BottomSheet from 'reanimated-bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 const SummaryScreen = ({ route, navigation }) => {
   const { passengers, luggage, tripDetails, email } = route.params;
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const sheetRef = useRef(null);
-  const fall = new Animated.Value(1);
 
   useEffect(() => {
-    sheetRef.current.snapTo(0);
+    sheetRef.current.snapToIndex(0);
   }, []);
 
   const handleProceedToPayment = () => {
@@ -80,10 +79,9 @@ const SummaryScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <BottomSheet
         ref={sheetRef}
-        snapPoints={[450, 300, 0]}
-        borderRadius={10}
-        renderContent={renderContent}
-        callbackNode={fall}
+        index={0}
+        snapPoints={['45%', '100%']}
+        children={renderContent()}
       />
     </View>
   );

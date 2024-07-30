@@ -98,7 +98,7 @@ const PassengerDetailsScreen = ({ navigation }) => {
         buttonStyle={styles.continueButton}
         containerStyle={styles.continueButtonContainer}
         disabled={!agree}
-        onPress={() => navigation.navigate('Summary', {
+        onPress={() => navigation.navigate('Payment', {
           passengers,
           luggage,
           tripDetails,

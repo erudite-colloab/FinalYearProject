@@ -18,7 +18,7 @@ import { AuthContext } from "../context/AuthContext";
 import * as Animatable from "react-native-animatable";
 import { Modalize } from "react-native-modalize";
 import PassengerBottomSheet from "../component/PassengerBottomSheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
@@ -59,6 +59,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -79,6 +80,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <Text style={styles.welcome}>Welcome, {auth.currentUser?.email}</Text>
         </ImageBackground>
+        <ScrollView>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Where to Today?</Text>
         </View>
@@ -201,6 +203,7 @@ const HomeScreen = ({ navigation }) => {
             icon={<Ionicons name="search" size={30} color="white" />}
           />
         </Animatable.View>
+        </ScrollView>
 
         <Modalize
           ref={passengerSheetRef}
@@ -216,6 +219,7 @@ const HomeScreen = ({ navigation }) => {
           />
         </Modalize>
       </KeyboardAvoidingView>
+      
     </GestureHandlerRootView>
   );
 };

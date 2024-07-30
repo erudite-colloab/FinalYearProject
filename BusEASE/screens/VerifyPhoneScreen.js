@@ -9,22 +9,22 @@ import {
 import { Ionicons, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { RadioButton } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
-//import { useNavigation } from '@react-navigation/native';
+import CountryPicker from 'react-native-country-picker-modal';
+
 
 
 const UpdatePhoneNumberScreen = ({ navigation }) => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("+233");
+  const [selectedCountry, setSelectedCountry] = useState({
+    cca2: 'GH',
+    callingCode: '233'
+  });
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verificationMethod, setVerificationMethod] = useState("sms");
 
   const handleContinue = () => {
-    //const navigation = useNavigation();
-    // Handle continue action here
-    //navigation.navigate( 'OTPverification')
-    // .catch(error => {
-    //     // Handle navigation error
-    //     console.error('Navigation error:', error);
-    //   });
+    navigation.navigate("AuthStack", {screen: "OTPverification"} );
+
   };
 
   return (
@@ -45,16 +45,32 @@ const UpdatePhoneNumberScreen = ({ navigation }) => {
           <Picker
             selectedValue={selectedCountryCode}
             style={styles.countryCodePicker}
-            onValueChange={(itemValue) => setSelectedCountryCode(itemValue)}
+            onValueChange={(itemValue, itemIndex) => setSelectedCountryCode(itemValue)}
+
           >
             <Picker.Item label="🇬🇭 +233" value="+233" />
             <Picker.Item label="🇳🇬 +234" value="+234" />
             <Picker.Item label="🇺🇸 +1" value="+1" />
-            {/* Add more country codes here */}
+            
           </Picker>
+          {/* <CountryPicker
+            withFilter
+            withFlag
+            withCountryNameButton={false}
+            withCallingCode
+            withEmoji
+            countryCode={selectedCountry.cca2}
+            onSelect={(country) => {
+              setSelectedCountry({
+                cca2: country.cca2,
+                callingCode: country.callingCode[0]
+              });
+            }}
+            containerButtonStyle={styles.countryCodePicker}
+          /> */}
           <TextInput
             style={styles.phoneNumberInput}
-            placeholder="0555509876"
+            placeholder="555509876"
             keyboardType="phone-pad"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
@@ -111,7 +127,7 @@ const styles = StyleSheet.create({
   backButton: {
     marginBottom: 20,
     position: "absolute",
-    top: 50,
+    top: 20,
     left: 10,
     width: 40,
     height: 40,
@@ -142,25 +158,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    //justifyContent: "space-between"
   },
   countryCodePicker: {
-    width: 100,
+    width: 80,
     height: 50,
     backgroundColor: "#f0f0f0",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    borderRadius: 5,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    
   },
   phoneNumberInput: {
     flex: 1,
     height: 50,
     backgroundColor: "#f0f0f0",
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
     paddingLeft: 10,
+    marginLeft: 10,
     fontSize: 16,
   },
   radioContainer: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   radioButtonRow: {
     flexDirection: "row",
@@ -181,17 +206,18 @@ const styles = StyleSheet.create({
   note: {
     fontSize: 14,
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 40,
   },
   continueButton: {
     backgroundColor: "#1E60ED",
     paddingVertical: 15,
-    borderRadius: 5,
+    borderRadius: 20,
     alignItems: "center",
   },
   continueButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: '500'
   },
 });
 
