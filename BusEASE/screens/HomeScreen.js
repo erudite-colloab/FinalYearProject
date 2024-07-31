@@ -1,224 +1,328 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions,Button, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import React, { useState } from 'react';
-import { auth } from '../firebase/firebaseConfig';
-import { FontAwesome } from '@expo/vector-icons';
-import MapView, { Marker, Polyline } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useContext, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import { Button } from "react-native-elements";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { auth } from "../firebase/firebaseConfig";
+import CustomSwitchButton from "../component/CustomSwitchButton";
+import { AuthContext } from "../context/AuthContext";
+import * as Animatable from "react-native-animatable";
+import { Modalize } from "react-native-modalize";
+import PassengerBottomSheet from "../component/PassengerBottomSheet";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+
 
 const HomeScreen = ({ navigation }) => {
-  const [location, setLocation] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
-  const [destination, setDestination] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
+  const { user } = useContext(AuthContext);
+  const [from, setFrom] = useState("Kumasi, Asafo");
+  const [to, setTo] = useState("Accra, Circle");
+  const [departureDate, setDepartureDate] = useState(new Date("2024-07-04"));
+  const [returnDate, setReturnDate] = useState(new Date("2024-07-04"));
+  const [tripType, setTripType] = useState(1);
+  const [showDeparturePicker, setShowDeparturePicker] = useState(false);
+  const [showReturnPicker, setShowReturnPicker] = useState(false);
+  const [passengers, setPassengers] = useState({ adult: 1, child: 0 });
 
- 
+  const passengerSheetRef = useRef(null);
+
+  const handleSwitchChange = (value) => {
+    setTripType(value);
+  };
+
+  const onDepartureDateChange = (event, selectedDate) => {
+    event.persist(); //retain event
+    const currentDate = selectedDate || departureDate;
+    setShowDeparturePicker(false);
+    setDepartureDate(currentDate);
+  };
+
+  const onReturnDateChange = (event, selectedDate) => {
+    event.persist(); //retain event
+    const currentDate = selectedDate || returnDate;
+    setShowReturnPicker(false);
+    setReturnDate(currentDate);
+  };
+
+  const handleSearchTrip = () => {
+    navigation.navigate("Tickets", { screen: "Ticket" });
+    //navigation.navigate("Ticket" );
+  };
+
+
+
+
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}
-    >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
-              <Text style={styles.title}>be.</Text>
-              <TouchableOpacity style={styles.bellIcon}>
-                <FontAwesome name="bell" size={24} color="#fff" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerContent}>
-              <Text style={styles.welcomeText}>Welcome {auth.currentUser?.email},</Text>
-              <Text style={styles.questionText}>Where to today?</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <TouchableOpacity style={styles.detailButton}>
-                <View style={styles.iconWithText}>
-                  <FontAwesome name="calendar" size={24} color="black" />
-                  <Text style={styles.detailText}>Departure</Text>
-                </View>
-                <Text style={styles.detailsub}>Today</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.detailButton}>
-                <View style={styles.iconWithText}>
-                  <FontAwesome name="user" size={24} color="black" />
-                  <Text style={styles.detailText}>Passengers</Text>
-                </View>
-                <Text style={styles.detailsub}>2</Text>
-              </TouchableOpacity>
-            </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ImageBackground
+          source={require("../assets/busbg.jpg")}
+          style={styles.header}
+          imageStyle={{ opacity: 0.4 }}
+        >
+          <View style={styles.headerContent}>
+            <Text style={styles.appName}>be</Text>
+            <Ionicons
+              name="notifications"
+              size={35}
+              color="white"
+              style={styles.notificationIcon}
+            />
           </View>
-
-          <View style={styles.mapContainer}>
-            <MapView style={styles.map} initialRegion={location}>
-              <Marker coordinate={location} />
-              <Marker coordinate={destination} />
-              <Polyline coordinates={[location, destination]} strokeColor="#000" strokeWidth={3} />
-            </MapView>
-
-            <View style={styles.tripCard}>
-              <View style={styles.row}>
-                <View style={styles.iconContainer}>
-                  <FontAwesome name="bus" size={24} color="grey" />
-                  <View style={styles.dashedLine}></View>
-                </View>
-                <View style={styles.column}>
-                  <Text style={styles.label}>From</Text>
-                  <TextInput style={[styles.input,styles.topInput]} placeholder='Your Location'/>
-                </View>
-                <Ionicons name="swap-vertical-outline" size={30} color="orange" style={styles.swapIcon} />
-              </View>
-
-              <View style={styles.row}>
-                <FontAwesome name="bus" size={24} color="grey" />
-                <View style={styles.column}>
-                  <Text style={styles.label}>To</Text>
-                  <TextInput style={styles.input} placeholder='Kumasi'/>
-                </View>
-              </View>
-            </View>
-
-            <TouchableOpacity style={styles.searchBtn}>
-              <Text style={styles.searchBtnTxt}>Search for a trip</Text>
-            </TouchableOpacity>
-          </View>
-
-          
+          <Text style={styles.welcome}>Welcome, {auth.currentUser.email}</Text>
+        </ImageBackground>
+        <ScrollView>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Where to Today?</Text>
         </View>
-      </ScrollView> 
-    </KeyboardAvoidingView>
+
+        <Animatable.View style={styles.footer} animation="fadeInUpBig">
+          <View style={styles.switchContainer}>
+            <CustomSwitchButton onSelectSwitch={handleSwitchChange} />
+          </View>
+
+          <View style={styles.tripCard}>
+            <View style={styles.row}>
+              <FontAwesome
+                name="bus"
+                size={24}
+                color="grey"
+                style={styles.busIcon}
+              />
+              <View style={styles.dashedLine}></View>
+              <View style={styles.column}>
+                <Text style={styles.label}>From</Text>
+                <TextInput
+                  style={[styles.input, styles.topInput]}
+                  placeholder="Your Location"
+                  value={from}
+                  onChangeText={setFrom}
+                />
+              </View>
+              <Ionicons
+                name="swap-vertical-outline"
+                size={30}
+                color="orange"
+                style={styles.swapIcon}
+              />
+            </View>
+
+            <View style={styles.row}>
+              <FontAwesome
+                name="bus"
+                size={24}
+                color="grey"
+                style={styles.busIcon}
+              />
+              <View style={styles.column}>
+                <Text style={styles.label}>To</Text>
+                <TextInput
+                  style={[styles.input, styles.bottomInput]}
+                  placeholder="Kumasi"
+                  value={to}
+                  onChangeText={setTo}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.dateCard}>
+            <TouchableOpacity
+              style={[styles.dateWrapper, styles.dateLeft]}
+              onPress={() => setShowDeparturePicker(true)}
+            >
+              <Ionicons name="calendar-outline" size={24} color="grey" />
+              <View style={styles.dateTextContainer}>
+                <Text style={styles.dateLabel}>Departure</Text>
+                <Text style={styles.dateText}>
+                  {departureDate.toLocaleDateString()}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {tripType === 2 && (
+              <TouchableOpacity
+                style={[styles.dateWrapper, styles.dateRight]}
+                onPress={() => setShowReturnPicker(true)}
+              >
+                <Ionicons name="calendar-outline" size={24} color="grey" />
+                <View style={styles.dateTextContainer}>
+                  <Text style={styles.dateLabel}>Return Date</Text>
+                  <Text style={styles.dateText}>
+                    {returnDate.toLocaleDateString()}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {showDeparturePicker && (
+            <DateTimePicker
+              value={departureDate}
+              mode="date"
+              display="default"
+              onChange={onDepartureDateChange}
+            />
+          )}
+          {tripType === 2 && showReturnPicker && (
+            <DateTimePicker
+              value={returnDate}
+              mode="date"
+              display="default"
+              onChange={onReturnDateChange}
+            />
+          )}
+
+          <TouchableOpacity
+            style={styles.passengerCard}
+            onPress={() => passengerSheetRef.current.open()}
+          >
+            <View style={styles.passengerRow}>
+              <Ionicons name="people-sharp" size={24} color="gray" />
+              <Text style={styles.passengerText}>Passengers</Text>
+              <Text style={styles.passengerDetails}>
+                Adult {passengers.adult}, Child {passengers.child}
+              </Text>
+              <Ionicons name="chevron-down" size={24} color="gray" />
+            </View>
+          </TouchableOpacity>
+
+          <Button
+            title="Search Trip"
+            onPress={handleSearchTrip}
+            buttonStyle={styles.searchButton}
+            containerStyle={styles.searchButtonContainer}
+            icon={<Ionicons name="search" size={30} color="white" />}
+          />
+        </Animatable.View>
+        </ScrollView>
+
+        <Modalize
+          ref={passengerSheetRef}
+          snapPoint={300}
+          modalHeight={300}
+          handlePosition="inside"
+          withHandle
+        >
+          <PassengerBottomSheet
+            onClose={() => passengerSheetRef.current.close()}
+            onPassengerChange={setPassengers}
+            initialPassengers={passengers}
+          />
+        </Modalize>
+      </KeyboardAvoidingView>
+      
+    </GestureHandlerRootView>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 50,
-    fontWeight: 'bold',
-    color: '#fff',
+    backgroundColor: "white",
   },
   header: {
-    backgroundColor: '#1E60ED',
-    paddingBottom: 20,
-    padding: 20,
+    height: 200,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-  },
-  headerTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    overflow: "hidden",
+    backgroundColor: "#1e60ed",
+    padding: 20,
   },
   headerContent: {
-    marginTop: 10,
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  bellIcon: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  appName: {
+    fontSize: 70,
+    fontWeight: "bold",
+    color: "white",
   },
-  welcomeText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 10,
-    color: 'white',
-  },
-  questionText: {
-    fontSize: 16,
-    marginTop: 5,
-    color: 'white',
-  },
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  welcome: {
     marginTop: 20,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "white",
   },
-  detailButton: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginHorizontal: 10,
-    marginBottom: 10,
+  notificationIcon: {
+    marginTop: 10,
+    marginVertical: 20,
   },
-  iconWithText: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  titleContainer: {
+    paddingLeft: 20,
+    paddingTop: 10,
+    marginBottom: 5,
   },
-  detailText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginLeft: 5,
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
   },
-  detailsub: {
-    fontSize: 12,
-    color: 'gray',
-    marginTop: 5,
-  },
-  mapContainer: {
-    flex: 1,
-    position: 'relative',
-  },
-  map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height / 1.5 ,
+  switchContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 0,
   },
   tripCard: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 15,
     borderRadius: 10,
-    marginHorizontal: 10,
-    position: 'absolute',
-    top: -10,
-    left: 20,
-    right: 20,
-    shadowColor: '#000',
+    marginHorizontal: 20,
+    marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
-    elevation: 5,
-    paddingBottom:3,
+    elevation: 4,
+    borderColor: "#1E60ED",
+    borderWidth: 1,
+    marginTop: 0,
+    height: 158,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 5,
   },
   column: {
     flex: 1,
     marginHorizontal: 10,
   },
-  iconContainer: {
-    alignItems: 'center',
+  busIcon: {
+    marginRight: 10,
+  },
+  bottomInput: {
+    marginBottom: 5,
   },
   dashedLine: {
     width: 1,
-    height: 20,
+    height: 30,
     borderWidth: 1,
-    borderColor: 'grey',
-    borderStyle: 'dashed',
+    borderColor: "grey",
+    borderStyle: "dashed",
     marginVertical: 5,
   },
   label: {
     fontSize: 14,
-    color: 'grey',
+    color: "#545455",
     marginBottom: 2,
   },
   input: {
     fontSize: 16,
-    fontWeight: 'bold',
-    padding: 5, 
-    //borderBottomWidth : 1,
+    fontWeight: "bold",
+    padding: 5,
+    borderBottomColor: "gray",
   },
   topInput: {
     borderBottomWidth: 1,
@@ -226,22 +330,87 @@ const styles = StyleSheet.create({
   swapIcon: {
     marginLeft: 10,
     top: 30,
-    
   },
-  searchBtn: {
-    backgroundColor: '#1E60ED',
+  dateCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+    borderColor: "#1E60ED",
+    borderWidth: 1,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  dateWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    padding: 10,
+  },
+  dateLeft: {
+    borderRightWidth: 1,
+    borderRightColor: "#545455",
+  },
+  dateRight: {
+    borderLeftWidth: 1,
+    borderLeftColor: "gray",
+  },
+  dateTextContainer: {
+    marginLeft: 10,
+  },
+  dateLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  dateText: {
+    fontSize: 14,
+    color: "gray",
+  },
+  passengerCard: {
+    backgroundColor: "white",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
     marginHorizontal: 20,
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    marginBottom: 50,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
+    borderColor: "#1E60ED",
+    borderWidth: 1,
   },
-  searchBtnTxt: {
-    color: 'white',
-    fontWeight: 'bold',
+  passengerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  passengerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  passengerDetails: {
+    fontSize: 16,
+    color: "gray",
+  },
+  searchButton: {
+    backgroundColor: "#1E60ED",
+    borderRadius: 20,
+    height: 50,
+    marginHorizontal: 20,
+  },
+  searchButtonContainer: {
+    margin: 20,
+    width: "100%",
+    alignSelf: "center",
   },
 });
+
+export default HomeScreen;
