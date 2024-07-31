@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import  { Paystack }  from 'react-native-paystack-webview';
-import { View } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const PaymentScreen = ({ navigation}) => {
+const PaymentScreen = ({ route, navigation}) => {
+  const { amount, email, tripDetails } = route.params;
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   return (
     <View style={{ flex: 1 }}>
       <Paystack  

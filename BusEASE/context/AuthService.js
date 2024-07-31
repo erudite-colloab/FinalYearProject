@@ -6,7 +6,7 @@ export const loginRequest = (email, password) => {
 }
 
 export const registerRequest = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password)
+    return createUserWithEmailAndPassword(auth, email, password, phoneNumber)
 }
 
 export const resetPassword = (email, password) => {

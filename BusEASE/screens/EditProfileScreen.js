@@ -23,7 +23,7 @@ const PersonalInfoScreen = ({ navigation }) => {
   const handleSave = () => {
     // Save the updated information
     setIsEditing(false);
-    navigation.navigate("VerifyPhone")
+    navigation.navigate("EmailVerification")
   };
 
   return (
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: 60,
+    top: 30,
     left: 20,
     width: 40,
     height: 40,
@@ -158,21 +158,23 @@ const styles = StyleSheet.create({
   //   color: '#1E60ED',
   // },
   header: {
+    flex: 0.5,
     backgroundColor: "#1E60ED",
     paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
+    borderBottomLeftRadius: 20,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "white",
+    //marginBottom: 30,
+    color: "#fff",
     marginHorizontal: 100,
-    marginTop: 20,
+    //marginTop: 1,
   },
   toggleButtonsContainer: {
     flexDirection: "row",

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -13,6 +13,7 @@ import {
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { Picker } from "@react-native-picker/picker";
 import SupportBottomSheet from '../component/SupportBottomSheet';
+import { AuthContext } from '../context/AuthContext';
 //import { useNavigation } from "@react-navigation/native";
 
 
@@ -50,11 +51,7 @@ const SettingsScreen = ({ navigation }) => {
     //navigation.setOptions({ tabBarVisible: true });
   };
 
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     tabBarVisible: true,
-  //   });
-  // }, [navigation]);
+  const {logout, isLoading} = useContext(AuthContext)
 
 
   return (
@@ -219,7 +216,7 @@ const SettingsScreen = ({ navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Are you sure you want to sign out?</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={handleSignOut}>
+            <TouchableOpacity style={styles.modalButton} onPress={logout}>
               <Text style={styles.modalButtonText}>Sign out</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalCancel} onPress={() => setsignOutModalVisible(false)}>

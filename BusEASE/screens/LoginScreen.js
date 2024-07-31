@@ -9,8 +9,6 @@ import { View,
 import React, { useContext, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
-import { auth, db } from "../firebase/firebaseConfig";
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../context/AuthContext';
 //import { useDispatch } from 'react-redux';
 
@@ -27,10 +25,24 @@ export default function Login({ navigation }) {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-
   const signupBtn = () => {
      navigation.navigate('SignUpScreen')
   } 
+
+  const handleLoginWrapper = async () => {
+    if (email === '' || password === '') {
+      Alert.alert('Error', 'Email and Password are required!');
+      return;
+    }
+    try {
+      await handleLogin(email, password);
+      Alert.alert('Success', 'Login successful!');
+      // Navigate to the next screen after successful login
+      navigation.navigate("HomeScreen");
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
   
   return (
     <View style={styles.container}>
@@ -78,7 +90,7 @@ export default function Login({ navigation }) {
               <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginBtn} onPress={() => handleLogin(email, password)} disabled={isLoading}>
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLoginWrapper} disabled={isLoading}>
               <Text style={styles.loginBtnText}>{isLoading? 'Loading...' : 'Login'}</Text>
 
             </TouchableOpacity>

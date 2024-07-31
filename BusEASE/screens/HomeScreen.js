@@ -20,6 +20,7 @@ import { Modalize } from "react-native-modalize";
 import PassengerBottomSheet from "../component/PassengerBottomSheet";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 
+
 const HomeScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [from, setFrom] = useState("Kumasi, Asafo");
@@ -57,6 +58,9 @@ const HomeScreen = ({ navigation }) => {
   };
 
 
+
+
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       
@@ -78,7 +82,7 @@ const HomeScreen = ({ navigation }) => {
               style={styles.notificationIcon}
             />
           </View>
-          <Text style={styles.welcome}>Welcome, {auth.currentUser?.email}</Text>
+          <Text style={styles.welcome}>Welcome, {auth.currentUser.email}</Text>
         </ImageBackground>
         <ScrollView>
         <View style={styles.titleContainer}>

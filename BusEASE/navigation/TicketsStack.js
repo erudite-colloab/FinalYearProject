@@ -22,15 +22,15 @@ const TicketsStack = () => {
       />
       <Stack.Screen 
         name="SelectSeat" 
-        component={SelectSeatScreenWithHideTab}
+        component={withHideTabBar(SelectSeatScreen)}
       />
       <Stack.Screen 
         name="PickUpDropOff" 
-        component={PickupDropoffScreenWithHideTab} 
+        component={withHideTabBar(PickupDropoffScreen)} 
       />
       <Stack.Screen 
         name="PassengerDetails"
-        component={PassengerDetailsScreennWithHideTab}
+        component={withHideTabBar(PassengerDetailsScreen)}
         options={{
           headerShown: true,
           title: 'Passenger Details',
@@ -81,76 +81,31 @@ const TicketsStack = () => {
   );
 };
 
-const SelectSeatScreenWithHideTab = (props) => {
-  const navigation = useNavigation();
+// Higher-order component to hide tab bar
+const withHideTabBar = (WrappedComponent) => {
+  return (props) => {
+    const navigation = useNavigation();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const parentNavigation = navigation.getParent();
-      if (parentNavigation) {
-        parentNavigation.setOptions({
-          tabBarStyle: { display: 'none' }
-        });
-      }
-      return () => {
+    useFocusEffect(
+      React.useCallback(() => {
+        const parentNavigation = navigation.getParent();
         if (parentNavigation) {
           parentNavigation.setOptions({
-            tabBarStyle: { display: 'flex', height: 80 },
+            tabBarStyle: { display: 'none' }
           });
         }
-      };
-    }, [navigation])
-  );
+        return () => {
+          if (parentNavigation) {
+            parentNavigation.setOptions({
+              tabBarStyle: { display: 'flex', height: 80 },
+            });
+          }
+        };
+      }, [navigation])
+    );
 
-  return <SelectSeatScreen {...props} />;
-};
-
-const PickupDropoffScreenWithHideTab = (props) => {
-  const navigation = useNavigation();
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const parentNavigation = navigation.getParent();
-      if (parentNavigation) {
-        parentNavigation.setOptions({
-          tabBarStyle: { display: 'none' }
-        });
-      }
-      return () => {
-        if (parentNavigation) {
-          parentNavigation.setOptions({
-            tabBarStyle: { display: 'flex', height: 80 },
-          });
-        }
-      };
-    }, [navigation])
-  );
-
-  return <PickupDropoffScreen {...props} />;
-};
-
-const PassengerDetailsScreennWithHideTab = (props) => {
-  const navigation = useNavigation();
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const parentNavigation = navigation.getParent();
-      if (parentNavigation) {
-        parentNavigation.setOptions({
-          tabBarStyle: { display: 'none' }
-        });
-      }
-      return () => {
-        if (parentNavigation) {
-          parentNavigation.setOptions({
-            tabBarStyle: { display: 'flex', height: 80 },
-          });
-        }
-      };
-    }, [navigation])
-  );
-
-  return <PassengerDetailsScreen {...props} />;
+    return <WrappedComponent {...props} />;
+  };
 };
 
 export default TicketsStack;

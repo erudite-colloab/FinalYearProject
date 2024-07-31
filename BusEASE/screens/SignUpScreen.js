@@ -10,9 +10,6 @@ import { View,
 import React, {useContext, useState} from 'react'
 import * as Animatable from 'react-native-animatable';
 import { Feather } from '@expo/vector-icons';
-import { auth,db } from '../firebase/firebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Signup({ navigation }) {
@@ -28,11 +25,23 @@ export default function Signup({ navigation }) {
     setIsPasswordVisible(!isPasswordVisible);
   };
   
-
-
   const login = () => {
     navigation.navigate('LoginScreen');
   }
+
+  const handleSignUpWrapper = async () => {
+    if (username === '' || phoneNumber === '' || email === '' || password === '') {
+      Alert.alert('Error', 'All fields are required!');
+      return;
+    }
+    try {
+      await handleSignUp(email, password, username, phoneNumber);
+      Alert.alert('Success', 'Account created successfully!');
+      navigation.navigate('LoginScreen');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
@@ -95,7 +104,7 @@ export default function Signup({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.signupBtn} onPress={() => handleSignUp(email, password, username, phoneNumber)}>
+          <TouchableOpacity style={styles.signupBtn} onPress={handleSignUpWrapper}>
            
             <Text style={styles.signupBtnText}>{isLoading? 'Loading...' : 'Sign up'}</Text>
           </TouchableOpacity>
