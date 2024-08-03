@@ -14,6 +14,7 @@ export const AuthContextProvider = ({children}) => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [isAuthorized, setIsAuthorized] = useState(false)
+    const [isAuthorizeda, setIsAuthorizeda] = useState("loading")
     //const navigation = useNavigation();
 
     useEffect(() => {
@@ -26,9 +27,12 @@ export const AuthContextProvider = ({children}) => {
             setUser(u);
           }
           setError(null);
-          setIsAuthorized(true)
+          setIsAuthorized(true);
+          setIsAuthorizeda("authenticated");
+          
         }else {
           setIsAuthorized(false)
+          setIsAuthorizeda("unauthenticated");
         }
     });
 
@@ -163,6 +167,7 @@ export const AuthContextProvider = ({children}) => {
         error,
         isLoading,
         isAuthorized,
+        isAuthorizeda,
         handleLogin,
         handleSignUp,
         logout,

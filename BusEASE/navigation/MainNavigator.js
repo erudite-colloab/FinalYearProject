@@ -33,7 +33,7 @@ export default function MainNavigator() {
         tabBarInactiveTintColor: 'gray',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          //position: 'absolute',
+          // position: 'absolute',
           height: 75,
           display: "flex",
         },
