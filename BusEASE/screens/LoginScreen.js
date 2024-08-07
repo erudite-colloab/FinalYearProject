@@ -38,7 +38,7 @@ export default function Login({ navigation }) {
       await handleLogin(email, password);
       Alert.alert('Success', 'Login successful!');
       // Navigate to the next screen after successful login
-      navigation.navigate("HomeScreen");
+      //navigation.navigate("HomeScreen");
     } catch (error) {
       Alert.alert('Error', error.message);
     }

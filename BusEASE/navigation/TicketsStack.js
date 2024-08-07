@@ -7,6 +7,7 @@ import PickupDropoffScreen from '../screens/PickUpDropOffScreen';
 import PassengerDetailsScreen from '../screens/PassengerDetailsScreen';
 import SummaryScreen from '../screens/SummaryScreen';
 import PaymentScreen from '../screens/PaymentScreen';
+import BusTicketPass from '../screens/BusTicketPass';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,13 @@ const TicketsStack = () => {
             fontWeight: 'bold',
             fontSize: 24
           },
+        }}
+      />
+      <Stack.Screen
+        name="BusTicket"
+        component={withHideTabBar(BusTicketPass)}
+        options={{
+          headerShown: false,
         }}
       />
       

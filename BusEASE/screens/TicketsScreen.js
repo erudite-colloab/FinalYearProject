@@ -10,7 +10,7 @@ const trips = [
     departureTime: '06:05AM',
     duration: '5 hrs',
     arrivalTime: '12:00PM',
-    seatsAvailable: 5,
+    seatsAvailable: 6,
     price: 120,
     currency: 'GHC',
     company: 'STC',
@@ -21,7 +21,7 @@ const trips = [
     from: 'Kumasi, Asafo',
     to: 'Accra, Circle',
     departureTime: '06:05AM',
-    duration: '45 min',
+    duration: '5hr',
     arrivalTime: '5:30 PM',
     seatsAvailable: 8,
     price: 100,
@@ -34,7 +34,7 @@ const trips = [
     from: 'Kumasi, Asafo',
     to: 'Accra, Circle',
     departureTime: '6:00 PM',
-    duration: '5 hr',
+    duration: '4 hr',
     arrivalTime: '3:45 PM',
     seatsAvailable: 10,
     price: 65,
@@ -81,7 +81,12 @@ const TicketsScreen = ({ navigation }) => {
           //</View>onPress={() => Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`)} && navigation.navigate("SelectSeatScreen")  >
           onPress={() => {
             Alert.alert('Buy Ticket', `Buy ticket for ${item.company}`, [
-              { text: "OK", onPress: () => navigation.navigate("SelectSeat") },
+              { text: "OK", onPress: () => navigation.navigate("SelectSeat", {
+                ticketPrice: item.price,
+                currency: item.currency,
+                company: item.company,
+                otherDetails: item,
+              }) },
               { text: "Cancel", onPress: () => {navigation.goBack()} }, // Optional: Add a  button
             ])
           }} >
@@ -170,7 +175,7 @@ const styles = StyleSheet.create({
   },
   durationText: {
     color: 'gray',
-    fontSize: 14,
+    fontSize: 12,
   },
   tripList: {
     paddingHorizontal: 20,
@@ -199,14 +204,14 @@ const styles = StyleSheet.create({
   },
   tripDuration: {
     color: 'gray',
-    fontSize: 14,
+    fontSize: 12,
   },
   tripTimeInfo: {
     flex: 1,
     alignItems: 'flex-end',
   },
   tripTime: {
-    fontSize: 16,
+    fontSize: 14,
     color: 'black',
   },
   tripArrivalTime: {

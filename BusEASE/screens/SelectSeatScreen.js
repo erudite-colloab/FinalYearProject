@@ -11,8 +11,10 @@ const seats = [
   { id: '6A', available: false }, { id: '6B', available: true }, { id: '6C', available: false }, { id: '6D', available: true },
 ];
 
-const SeatSelectionScreen = ({ navigation }) => {
+const SeatSelectionScreen = ({ route, navigation }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const { ticketPrice, currency, company, otherDetails } = route.params;
+
   const [status, setStatus] =useState(false);
 
   const toggleSeatSelection = (seatId) => {
@@ -22,6 +24,8 @@ const SeatSelectionScreen = ({ navigation }) => {
         : [...prevSelectedSeats, seatId]
     );
   };
+
+  const totalPrice = selectedSeats.length * ticketPrice;
 
   const renderSeat = ({ item }) => {
     const isBColumn = item.id.endsWith('B');
@@ -46,7 +50,8 @@ const SeatSelectionScreen = ({ navigation }) => {
 
   const handleSeat =() => {
     setStatus(true);
-   navigation.navigate('PickUpDropOff')
+    
+   navigation.navigate('PickUpDropOff',  { totalPrice, currency })
 
   }
 
@@ -57,15 +62,15 @@ const SeatSelectionScreen = ({ navigation }) => {
         />
         <Text style={styles.headerTitle}>Seat Selection</Text>
       </View>
-      <Text style={styles.stepText}>Step 1 of 5</Text>
+      {/* <Text style={styles.stepText}>Step 1 of 5</Text> */}
       <View style={styles.statusContainer}>
         <View style={styles.statusItem}>
-          <View style={[styles.statusIndicator, { backgroundColor: '#f7f7f7' }]} />
-          <Text style={styles.statusText}>Empty</Text>
+          <View style={[styles.statusIndicator, { backgroundColor: '#B6B6B6' }]} />
+          <Text style={styles.statusText}>Booked</Text>
         </View>
         <View style={styles.statusItem}>
           <View style={[styles.statusIndicator, { backgroundColor: '#1E60ED' }]} />
-          <Text style={styles.statusText}>Booked</Text>
+          <Text style={styles.statusText}>Empty</Text>
         </View>
         <View style={styles.statusItem}>
           <View style={[styles.statusIndicator, { backgroundColor: 'green' }]} />
@@ -89,6 +94,7 @@ const SeatSelectionScreen = ({ navigation }) => {
         <View style={styles.selectedSeatsInfo}>
           <Text style={styles.infoLabel}>Selected Seat(s):</Text>
           <Text style={styles.selectedSeats}>{selectedSeats.join(', ')}</Text>
+          <Text style={{fontWeight: '600'}}>Total Price: {totalPrice} {currency}</Text>
         </View>
       </View>
       <Button
@@ -115,6 +121,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 15,
     paddingTop: 40,
+    marginBottom: 10
   },
   backButton: {
     marginRight: 20,

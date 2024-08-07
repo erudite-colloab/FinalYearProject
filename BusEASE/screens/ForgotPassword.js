@@ -8,7 +8,7 @@ import { View,
          Alert
         } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 
 
@@ -18,14 +18,23 @@ export default function ForgotPassword({ navigation }) {
 
   const handleSendCode = () => {
     if  (!email) {
-      Alert.alert('Please enter your email address');
+      Alert.alert('Validation','Please enter your email address');
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      Alert.alert('Validation', 'Please enter a valid email address');
       return;
     }
      //Handle send code lgic here 
     //console.log('Send Code to:', email);
-    passwordReset(email);
-    navigation.navigate('OTPverification');
-   
+    passwordReset(email)
+      .then(() => {
+        Alert.alert('Success', 'Code sent to your email. Please check your email to continue.');
+        navigation.navigate('OTPverification');
+      })
+      .catch((error) => {
+        Alert.alert('Error', 'Failed to send password reset email. Please try again.');
+      });
   };
 
   const loginBack = () => {
