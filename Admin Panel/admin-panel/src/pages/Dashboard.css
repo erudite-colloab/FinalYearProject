@@ -1,0 +1,153 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f4f4;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #1e60ed;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  .hamburger {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1001;
+  }
+  
+  .admin-profile {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .admin-profile img {
+    width: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .admin-profile h2 {
+    margin-bottom: 5px;
+  }
+  
+  .nav-links {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    
+  }
+  
+  .nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: #2d73f5;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+
+  .nav-links li a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+
+  
+  .nav-links li:hover {
+    background-color: #3e85ff;
+  }
+  
+  .nav-links li .icon {
+    margin-right: 10px;
+
+  }
+  
+  .main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  .main-content.shifted {
+    margin-left: 0;
+  }
+  
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .logout-button {
+    background-color: #ff4757;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 23%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .card .icon {
+    font-size: 30px;
+    margin-right: 20px;
+    color: #1e60ed;
+  }
+  
+  .card-details h2 {
+    margin-bottom: 10px;
+  }
+  
+  .card-details p {
+    margin-bottom: 5px;
+    color: #666;
+  }
+  
+  .card-details a {
+    text-decoration: none;
+    color: #1e60ed;
+    font-weight: bold;
+  }
+  
