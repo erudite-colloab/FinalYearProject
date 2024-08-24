@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Buses.css';
+import './Buses.module.css'
 
 
 const FleetManagement = () => {

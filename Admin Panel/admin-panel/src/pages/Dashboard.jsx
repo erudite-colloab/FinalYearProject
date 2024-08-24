@@ -27,8 +27,9 @@ const Dashboard = () => {
           <li><FaBus /><Link to="/fleet-management">Buses</Link></li>
           <li><FaRoute /><Link to="/route-management"> Routes</Link></li>
           <li><GiSteeringWheel /><Link to="/driver">Drivers</Link></li>
-          <li><FaUsers /><Link to="/client-management">Customers</Link></li>
+          <li><FaUsers /><Link to="/bookings">Bookings</Link></li>
           <li><FaMoneyBillWave /><Link to="/payment-management"> Manage Payments</Link></li>
+          <li><FaMoneyBillWave /><Link to="/bus-tracking"> Bus Tracking</Link></li>
           <li><BiSolidReport /><Link to="/reporting-analytics">Reporting & Analytics</Link></li>
 
         </ul>

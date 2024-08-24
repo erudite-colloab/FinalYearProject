@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage';
 import FleetManagementPage from './pages/FleetManagementPage';
 import TripTrackingPage from './pages/TripTrackingPage';
 import ReportAnalyticsPage from './pages/ReportAnalyticsPage';
-import ClientManagementPage from './pages/ClientManagementPage';
+import BookingPage from './pages/BookingPage';
 import PaymentManagementPage from './pages/PaymentManagementPage';
 import BusTrackingPage from './pages/BusTrackingPage';
 import RouteManagementPage from './pages/RouteManagementPage.';
@@ -21,7 +21,7 @@ function App() {
         <Route path="/trip-tracking" element={<TripTrackingPage />} />
         <Route path="/driver" element={<DriversPage />} />
         <Route path="/reporting-analytics" element={<ReportAnalyticsPage />} />
-        <Route path="/client-management" element={<ClientManagementPage />} />
+        <Route path="/bookings" element= {<BookingPage />} />
         <Route path="/payment-management" element={<PaymentManagementPage />} />
         <Route path="/bus-tracking" element={<BusTrackingPage />} />
         <Route path="/route-management" element={<RouteManagementPage />} />

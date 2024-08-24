@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './RouteManagement.css';
+import './RouteManagement.module.css';
 
 const RouteManagement = () => {
     const [routes, setRoutes] = useState([
