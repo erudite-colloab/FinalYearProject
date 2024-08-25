@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import './Dashboard.css';
+import  { useState } from 'react';
+import styles from './Dashboard.module.css'; // Importing as CSS Module
 import adminImg from "../assets/3dmanglasses.jpg"
 import { Link } from 'react-router-dom';
 import { FaBus, FaRoute, FaUsers, FaMoneyBillWave, FaCogs } from 'react-icons/fa';
@@ -14,15 +14,14 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className={`sidebar ${isSidebarOpen ? '' : 'closed'}`}>
-      {/* <div className="sidebar"> */}
-        <div className="admin-profile">
+    <div className={styles.dashboardContainer}>
+      <div className={`${styles.sidebar} ${isSidebarOpen ? '' : styles.closed}`}>
+        <div className={styles.adminProfile}>
           <img src={adminImg} alt="Admin" />
           <h2>@admin</h2>
           <p>System Administrator</p>
         </div>
-        <ul className="nav-links">
+        <ul className={styles.navLinks}>
           <li><FaCogs />  Dashboard</li>
           <li><FaBus /><Link to="/fleet-management">Buses</Link></li>
           <li><FaRoute /><Link to="/route-management"> Routes</Link></li>
@@ -31,43 +30,42 @@ const Dashboard = () => {
           <li><FaMoneyBillWave /><Link to="/payment-management"> Manage Payments</Link></li>
           <li><FaMoneyBillWave /><Link to="/bus-tracking"> Bus Tracking</Link></li>
           <li><BiSolidReport /><Link to="/reporting-analytics">Reporting & Analytics</Link></li>
-
         </ul>
       </div>
 
-      <div className="main-content">
-        <div className="header">
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
           <h1>Welcome, Admin</h1>
-          <button className="logout-button">Log Out</button>
+          <button className={styles.logoutButton}>Log Out</button>
         </div>
-        <div className="cards">
-          <div className="card">
-            <FaBus className="icon" />
-            <div className="card-details">
+        <div className={styles.cards}>
+          <div className={styles.card}>
+            <FaBus className={styles.icon} />
+            <div className={styles.cardDetails}>
               <h2>Buses</h2>
               <p>Total Buses: 10</p>
               <a href="#">View More</a>
             </div>
           </div>
-          <div className="card">
-            <FaRoute className="icon" />
-            <div className="card-details">
+          <div className={styles.card}>
+            <FaRoute className={styles.icon} />
+            <div className={styles.cardDetails}>
               <h2>Routes</h2>
               <p>Total Routes: 7</p>
               <a href="#">View More</a>
             </div>
           </div>
-          <div className="card">
-            <FaUsers className="icon" />
-            <div className="card-details">
+          <div className={styles.card}>
+            <FaUsers className={styles.icon} />
+            <div className={styles.cardDetails}>
               <h2>Customers</h2>
               <p>Total Customers: 6</p>
               <a href="#">View More</a>
             </div>
           </div>
-          <div className="card">
-            <FaMoneyBillWave className="icon" />
-            <div className="card-details">
+          <div className={styles.card}>
+            <FaMoneyBillWave className={styles.icon} />
+            <div className={styles.cardDetails}>
               <h2>Earnings</h2>
               <p>Total Earnings: $490</p>
               <a href="#">View More</a>
@@ -75,9 +73,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="hamburger" onClick={toggleSidebar}>
-      <GiHamburgerMenu />
-        {/* ☰ */}
+      <div className={styles.hamburger} onClick={toggleSidebar}>
+        <GiHamburgerMenu />
       </div>
     </div>
   );

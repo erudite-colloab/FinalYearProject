@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './RouteManagement.module.css';
+import styles from './RouteManagement.module.css';
 
 const RouteManagement = () => {
     const [routes, setRoutes] = useState([
@@ -46,15 +46,15 @@ const RouteManagement = () => {
     };
 
     return (
-        <div className="manage-routes-container">
-            <div className="page-header">
+        <div className={styles.manageRoutesContainer}>
+            <div className={styles.pageHeader}>
                 <h1>Manage Routes & Schedules</h1>
-                <button className="route-button" onClick={toggleAddRouteForm}>
+                <button className={styles.routeButton} onClick={toggleAddRouteForm}>
                     {showAddRouteForm ? 'Close Add Route' : 'Add New Route'}
                 </button>
             </div>
 
-            <div className="route-management-table">
+            <div className={styles.routeManagementTable}>
                 <h3>Route Management</h3>
                 <table>
                     <thead>
@@ -84,9 +84,9 @@ const RouteManagement = () => {
                                         <option value="Inactive">Inactive</option>
                                     </select>
                                 </td>
-                                <td className="table-actions">
-                                    <button className="edit" onClick={() => handleEditRoute(route)}>Edit</button>
-                                    <button className="delete" onClick={() => handleDeleteRoute(route.id)}>Delete</button>
+                                <td className={styles.tableActions}>
+                                    <button className={styles.edit} onClick={() => handleEditRoute(route)}>Edit</button>
+                                    <button className={styles.delete} onClick={() => handleDeleteRoute(route.id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -95,9 +95,9 @@ const RouteManagement = () => {
             </div>
 
             {showAddRouteForm && (
-                <div className="add-route-form">
+                <div className={styles.addRouteForm}>
                     <h3>{isEditing ? 'Edit Route' : 'Add New Route'}</h3>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="origin">Origin</label>
                         <input
                             type="text"
@@ -108,7 +108,7 @@ const RouteManagement = () => {
                             placeholder="Enter origin"
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="destination">Destination</label>
                         <input
                             type="text"
@@ -119,7 +119,7 @@ const RouteManagement = () => {
                             placeholder="Enter destination"
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="departureTime">Departure Time</label>
                         <input
                             type="datetime-local"
@@ -129,7 +129,7 @@ const RouteManagement = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="arrivalTime">Arrival Time</label>
                         <input
                             type="datetime-local"
@@ -139,7 +139,7 @@ const RouteManagement = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="busType">Bus Type</label>
                         <input
                             type="text"
@@ -150,7 +150,7 @@ const RouteManagement = () => {
                             placeholder="Enter bus type"
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label htmlFor="price">Price</label>
                         <input
                             type="text"

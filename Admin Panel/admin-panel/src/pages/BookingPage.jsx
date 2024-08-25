@@ -1,11 +1,11 @@
 import  { useState } from 'react';
-import './Bookings.module.css';
+import styles from './Bookings.module.css';
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([
     { id: 1, customerName: 'John Doe', contact: '0509909213', route: 'Kumasi - Accra', busNum: 'GT 3030-21', bookingDate: '2024-08-01', travelDate: '2024-08-10', status: 'Confirmed', amountPaid: '100 GHC' },
     { id: 2, customerName: 'Jane Smith', contact: '050996613', route: 'Accra - Kumasi', busNum: 'AS 4040-22', bookingDate: '2024-08-05', travelDate: '2024-08-12', status: 'Pending', amountPaid: '90 GHC' },
-    { id: 3, customerName: 'Robert Brown', contact: '0899909213' ,route: 'Kumasi - Takoradi', busNum: 'ER 2012-23', bookingDate: '2024-08-07', travelDate: '2024-08-14', status: 'Canceled', amountPaid: '70 GHC' },
+    { id: 3, customerName: 'Robert Brown', contact: '0899909213', route: 'Kumasi - Takoradi', busNum: 'ER 2012-23', bookingDate: '2024-08-07', travelDate: '2024-08-14', status: 'Canceled', amountPaid: '70 GHC' },
   ]);
 
   const [filteredBookings, setFilteredBookings] = useState(bookings);
@@ -50,38 +50,38 @@ const Bookings = () => {
   };
 
   return (
-    <div className="bookings-container">
-      <div className="header">
-        <h1 className='header-title'>Manage Bookings</h1>
+    <div className={styles.bookingsContainer}>
+      <div className={styles.header}>
+        <h1 className={styles.headerTitle}>Manage Bookings</h1>
         <input
           type="text"
           placeholder="Search bookings..."
           value={filter}
           onChange={handleFilterChange}
-          className="filter-input"
+          className={styles.filterInput}
         />
       </div>
 
-      <div className="booking-summary">
-        <div className="card">
+      <div className={styles.bookingSummary}>
+        <div className={styles.card}>
           <h3>Total Bookings</h3>
-          <p className="summary-number">{bookings.length}</p>
+          <p className={styles.summaryNumber}>{bookings.length}</p>
         </div>
-        <div className="card">
+        <div className={styles.card}>
           <h3>Confirmed</h3>
-          <p className="summary-number">{bookings.filter(booking => booking.status === 'Confirmed').length}</p>
+          <p className={styles.summaryNumber}>{bookings.filter(booking => booking.status === 'Confirmed').length}</p>
         </div>
-        <div className="card">
+        <div className={styles.card}>
           <h3>Pending</h3>
-          <p className="summary-number">{bookings.filter(booking => booking.status === 'Pending').length}</p>
+          <p className={styles.summaryNumber}>{bookings.filter(booking => booking.status === 'Pending').length}</p>
         </div>
-        <div className="card">
+        <div className={styles.card}>
           <h3>Canceled</h3>
-          <p className="summary-number">{bookings.filter(booking => booking.status === 'Canceled').length}</p>
+          <p className={styles.summaryNumber}>{bookings.filter(booking => booking.status === 'Canceled').length}</p>
         </div>
       </div>
 
-      <div className="booking-management-table">
+      <div className={styles.bookingManagementTable}>
         <h3>All Bookings</h3>
         <table>
           <thead>
@@ -108,9 +108,9 @@ const Bookings = () => {
                 <td>{booking.travelDate}</td>
                 <td>{booking.status}</td>
                 <td>{booking.amountPaid}</td>
-                <td className="table-actions">
-                  <button className="edit" onClick={() => handleEditBooking(booking.id)}>Edit</button>
-                  <button className="cancel" onClick={() => handleCancelBooking(booking.id)}>Cancel</button>
+                <td className={styles.tableActions}>
+                  <button className={styles.edit} onClick={() => handleEditBooking(booking.id)}>Edit</button>
+                  <button className={styles.cancel} onClick={() => handleCancelBooking(booking.id)}>Cancel</button>
                 </td>
               </tr>
             ))}
@@ -119,9 +119,9 @@ const Bookings = () => {
       </div>
 
       {editMode && (
-        <div className="edit-booking-form">
+        <div className={styles.editBookingForm}>
           <h3>Edit Booking</h3>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="customerName">Customer Name</label>
             <input 
               type="text" 
@@ -131,7 +131,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="contact">Contact</label>
             <input 
               type="text" 
@@ -141,7 +141,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="route">Route</label>
             <input 
               type="text" 
@@ -151,7 +151,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="bus">Bus Number</label>
             <input 
               type="text" 
@@ -161,7 +161,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="travelDate">Travel Date</label>
             <input 
               type="date" 
@@ -171,7 +171,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="amountPaid">Amount Paid</label>
             <input 
               type="text" 
@@ -181,7 +181,7 @@ const Bookings = () => {
               onChange={handleInputChange} 
             />
           </div>
-          <button className="save" onClick={handleSaveBooking}>Save</button>
+          <button className={styles.save} onClick={handleSaveBooking}>Save</button>
         </div>
       )}
     </div>
