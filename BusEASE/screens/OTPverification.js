@@ -6,6 +6,7 @@ import {  StyleSheet,
            Image,
         } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { Ionicons } from '@expo/vector-icons';
 
 const OTPverification = ( { navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -80,6 +81,7 @@ const handleChangeOtp = (index, value) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleVerify}>
         <Text style={styles.buttonText}>Verify</Text>
+        <Ionicons name='checkmark-circle' size={25} color='white' />
       </TouchableOpacity>
       <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => navigation.goBack()}>
         <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
@@ -153,6 +155,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 10,
+        flexDirection: 'row'
+        
       },
       buttonText: {
         color: '#fff',

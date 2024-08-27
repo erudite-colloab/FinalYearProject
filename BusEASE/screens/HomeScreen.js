@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    paddingBottom: 100
   },
   header: {
     height: 200,

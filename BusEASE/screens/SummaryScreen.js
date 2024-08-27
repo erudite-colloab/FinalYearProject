@@ -27,8 +27,13 @@ const SummaryScreen = ({ route, navigation }) => {
   const renderContent = () => (
     <ScrollView style={styles.bottomSheet}>
       <Text style={styles.summaryTitle}>Summary</Text>
-      <Text style={styles.passengerInfo}>{passengers.adults.length} adults, {passengers.children.length} child</Text>
-      <Text style={styles.date}>{new Date().toDateString()}</Text>
+      <View style={styles.passengerType}>
+        <Text style={styles.passengerInfo}>{passengers.adults.length} adults, {passengers.children.length} child</Text>
+      </View>
+      <View style={styles.k_date}>
+        <Text style={styles.date}>{new Date().toDateString()}</Text>
+        <Text style={styles.ticketPrice}>{tripPrice}</Text>
+      </View>
       
       <View style={styles.tripInfo}>
         <Text style={styles.tripDetail}>{tripDetails.departureTime}</Text>
@@ -103,6 +108,14 @@ const styles = StyleSheet.create({
   passengerInfo: {
     fontSize: 16,
     marginVertical: 5,
+    
+  },
+  passengerType :{
+    borderBottomWidth: 1,
+    borderColor: 'black',
+  },
+  k_date :{
+
   },
   date: {
     fontSize: 16,

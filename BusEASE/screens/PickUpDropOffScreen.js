@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderColor: "#1E60ED",
     borderWidth: 1,
-    marginTop: 70,
+    marginTop: 80,
     height: 158,
   },
   row: {

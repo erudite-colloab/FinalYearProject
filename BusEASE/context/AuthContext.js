@@ -141,17 +141,10 @@ export const AuthContextProvider = ({children}) => {
     }
 
 //password reset
-    const passwordReset = (email) => {
-        if  (!email) {
-          Alert.alert('Please enter your email address');
-          return;
-        }
-         //Handle send code lgic here 
-        console.log('Send Code to:', email);
-        
-        resetPassword(email)
+    const passwordReset = async (email) => {
+        sendPasswordResetEmail(auth, email.trim())
         .then(() => {
-          alert("Password reset email sent");
+          alert("Password reset email sent", "Check your email to reset your password." );
           //navigation.navigate('OTPverification');
         })
         .catch((error) => {
