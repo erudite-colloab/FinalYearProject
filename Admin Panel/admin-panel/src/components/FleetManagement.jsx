@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styles from './Buses.module.css';
+import './Buses.css'
+
 
 const FleetManagement = () => {
     const [buses, setBuses] = useState([
@@ -43,34 +44,34 @@ const FleetManagement = () => {
     };
   
     return (
-      <div className={styles.busesContainer}>
-        <div className={styles.header}>
+      <div className="buses-container">
+        <div className="header">
           <h1>Manage Fleet</h1>
-          <button className={styles.addBusButton} onClick={() => setIsFormVisible(!isFormVisible)}>
+          <button className="add-bus-button" onClick={() => setIsFormVisible(!isFormVisible)}>
             {isFormVisible ? 'Close Form' : 'Add New Bus'}
           </button>
         </div>
   
-        <div className={styles.fleetOverview}>
-          <div className={styles.card}>
+        <div className="fleet-overview">
+          <div className="card">
             <h3>Total Buses</h3>
             <p>{buses.length}</p>
           </div>
-          <div className={styles.card}>
+          <div className="card">
             <h3>In Service</h3>
             <p>{buses.filter(bus => bus.status === 'In Service').length}</p>
           </div>
-          <div className={styles.card}>
+          <div className="card">
             <h3>Under Maintenance</h3>
             <p>{buses.filter(bus => bus.status === 'Under Maintenance').length}</p>
           </div>
-          <div className={styles.card}>
+          <div className="card">
             <h3>Needs Maintenance</h3>
             <p>{buses.filter(bus => bus.status === 'Needs Maintenance').length}</p>
           </div>
         </div>
   
-        <div className={styles.busManagementTable}>
+        <div className="bus-management-table">
           <h3>Bus Management</h3>
           <table>
             <thead>
@@ -87,9 +88,9 @@ const FleetManagement = () => {
                   <td>{bus.name}</td>
                   <td>{bus.status}</td>
                   <td>{bus.lastMaintenance}</td>
-                  <td className={styles.tableActions}>
-                    <button className={styles.edit} onClick={() => handleEditBus(bus.id)}>Edit</button>
-                    <button className={styles.delete} onClick={() => handleDeleteBus(bus.id)}>Delete</button>
+                  <td className="table-actions">
+                    <button className="edit" onClick={() => handleEditBus(bus.id)}>Edit</button>
+                    <button className="delete" onClick={() => handleDeleteBus(bus.id)}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -97,9 +98,9 @@ const FleetManagement = () => {
           </table>
         </div>
   
-        <div className={`${styles.addBusForm} ${isFormVisible ? styles.visible : styles.hidden}`}>
-          <h3>{editingBusId ? 'Edit Bus' : 'Add New Bus'}</h3>
-          <div className={styles.formGroup}>
+        <div className={`add-bus-form ${isFormVisible ? 'visible' : 'hidden'}`}>
+          <h3>Add New Bus</h3>
+          <div className="form-group">
             <label htmlFor="name">Bus Name</label>
             <input
               type="text"
@@ -110,7 +111,7 @@ const FleetManagement = () => {
               placeholder="Enter bus name"
             />
           </div>
-          <div className={styles.formGroup}>
+          <div className="form-group">
             <label htmlFor="status">Status</label>
             <select
               id="status"
@@ -123,7 +124,7 @@ const FleetManagement = () => {
               <option value="Needs Maintenance">Needs Maintenance</option>
             </select>
           </div>
-          <div className={styles.formGroup}>
+          <div className="form-group">
             <label htmlFor="lastMaintenance">Last Maintenance Date</label>
             <input
               type="date"
@@ -133,12 +134,11 @@ const FleetManagement = () => {
               onChange={handleInputChange}
             />
           </div>
-          <button className={styles.save} onClick={handleAddBus}>
-            {editingBusId ? 'Save Changes' : 'Add Bus'}
-          </button>
+          <button onClick={handleAddBus}>Add Bus</button>
         </div>
       </div>
     );
   };
   
   export default FleetManagement;
+  

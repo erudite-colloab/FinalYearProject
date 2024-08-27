@@ -26,6 +26,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    max-width: 150px; /* Set a max-width */
+  width: 100%; /* Make the button responsive */
+  text-align: center; /* Center the text */
   }
   
   .route-button:hover {

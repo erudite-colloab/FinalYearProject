@@ -1,10 +1,8 @@
 import  { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'react-leaflet';
+import L from 'leaflet';
 import { FaBusAlt, FaExclamationTriangle, FaSearch } from 'react-icons/fa';
-import  styles from './BusTracking.module.css';
-import PropTypes from 'prop-types';
-
+import './BusTracking.css';
 
 // Custom bus icon
 const busIcon = new L.Icon({
@@ -47,23 +45,18 @@ const BusTracking = () => {
     bus.route.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // eslint-disable-next-line react/prop-types
   function ChangeView({ center, zoom }) {
     const map = useMap();
     map.setView(center, zoom);
     return null;
   }
 
-  ChangeView.propTypes = {
-    center: PropTypes.arrayOf(PropTypes.number).isRequired, // Expecting an array of numbers for latitude and longitude
-    zoom: PropTypes.number.isRequired,                      // Expecting a number for zoom level
-  };
-  
-
   return (
-    <div className={styles.bustrackingcontainer}>
-      <div className={styles.header}>
+    <div className="bus-tracking-container">
+      <div className="header">
         <h1>Bus Tracking</h1>
-        <div className={styles.searchbar}>
+        <div className="search-bar">
           <FaSearch />
           <input
             type="text"
